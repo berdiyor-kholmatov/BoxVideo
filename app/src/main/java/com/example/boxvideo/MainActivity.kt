@@ -38,13 +38,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             BoxVideoTheme {
-                Box(
-                    modifier = Modifier
-                        .aspectRatio(16/9f),
-                    contentAlignment = Alignment.Center
-                ) {
                     PlayerScreen()
-                }
 
             }
         }
@@ -58,52 +52,43 @@ fun PlayerScreen() {
     val player = remember { ExoPlayer.Builder(context).build() }
     val currentMovie = "https://fayllar1.ru/33/kinolar/Leo%202023%20480p%20(asilmedia.net).mp4"
 
-//    LaunchedEffect(currentMovie) {
-//        val mediaItem = MediaItem.fromUri(currentMovie)
-//        player.setMediaItem(mediaItem)
-//        player.prepare()
-//        player.play()
-//    }
+    LaunchedEffect(currentMovie) {
+        val mediaItem = MediaItem.fromUri(currentMovie)
+        player.setMediaItem(mediaItem)
+        player.prepare()
+        player.play()
+    }
 
     Column()  {
-//        AndroidView(
-//            factory = {
-//                PlayerView(it).apply {
-//                    this.player = player
-//                }
-//            }
-//        )
-        val imageLoader = ImageLoader.Builder(context)
-
-            .okHttpClient {
-
-                OkHttpClient.Builder()
-
-                    .addInterceptor { chain ->
-
-                        val request = chain.request().newBuilder()
-
-                            .header("User-Agent", "Mozilla/5.0")
-
-                            .build()
-
-                        chain.proceed(request)
-
-                    }
-
-                    .build()
-
+        AndroidView(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(16f / 9f),
+            factory = {
+                PlayerView(it).apply {
+                    this.player = player
+                }
             }
-
-            .build()
+        )
+        val imageLoader = remember {
+            ImageLoader.Builder(context)
+                .okHttpClient {
+                    OkHttpClient.Builder()
+                        .addInterceptor { chain ->
+                            val request = chain.request().newBuilder()
+                                .header("User-Agent", "Mozilla/5.0")
+                                .build()
+                            chain.proceed(request)
+                        }
+                        .build()
+                }
+                .build()
+        }
 
         AsyncImage(
             model = ImageRequest.Builder(context)
-
                 .data("https://asilmedia.org/uploads/mini/fullstory/ed/8bd5c566809505f3363b226e6bee64.webp")
-
                 .build(),
-
             imageLoader = imageLoader,
             contentDescription = null,
             modifier = Modifier
@@ -111,12 +96,8 @@ fun PlayerScreen() {
                 .height(230.dp),
             contentScale = ContentScale.Crop,
             onError = {
-
-                println("ERRORrrr: ${it.result.throwable}")
-
+                println("ERROR OF IMAGE ASYNC IMAGE: ${it.result.throwable}")
             }
         )
-
-
     }
 }

@@ -91,4 +91,6 @@ dependencies {
     implementation("androidx.navigation3:navigation3-runtime:1.1.0-rc01")
     implementation("androidx.navigation3:navigation3-ui:1.1.0-rc01")
 
+    //JSON
+    implementation("com.google.code.gson:gson:2.10.1")
 }
