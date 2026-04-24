@@ -5,10 +5,10 @@ import com.example.boxvideo.domain.model.VideoQuality
 import com.example.boxvideo.domain.model.VideoSource
 
 class VideoApi {
-    fun getVideos(): List<VideoFile> {
+    fun getVideos(): List<VideoDto> {
 
-        val videoFiles: List<VideoFile> = listOf(
-            VideoFile(
+        val videoFilesDto: List<VideoDto> = listOf(
+            VideoDto(
                 id = 1,
                 title = "Leo",
                 description = "Leo ismli kaltakesak va Skvirtl ismli " +
@@ -35,21 +35,21 @@ class VideoApi {
                         " жизненные советы, чтобы они никому не рассказали о его тайне.",
                 thumbnailUrl = "https://asilmedia.org/uploads/mini/fullstory/ed/8bd5c566809505f3363b226e6bee64.webp",
                 sources = listOf(
-                    VideoSource(
-                        quality = VideoQuality.P480,
+                    VideoSourceDto(
+                        quality = VideoQualityDto.P480,
                         url = "https://fayllar1.ru/33/kinolar/Leo%202023%20480p%20(asilmedia.net).mp4"
                     ),
-                    VideoSource(
-                        quality = VideoQuality.P720,
+                    VideoSourceDto(
+                        quality = VideoQualityDto.P720,
                         url = "https://fayllar1.ru/37/kinolar/Leo%202023%20720p%20(asilmedia.net).mp4"
                     ),
-                    VideoSource(
-                        quality = VideoQuality.P1080,
+                    VideoSourceDto(
+                        quality = VideoQualityDto.P1080,
                         url = "https://fayllar1.ru/38/kinolar/Leo%202023%201080p%20(asilmedia.net).mp4"
                     )
                 )
             ),
-            VideoFile(
+            VideoDto(
                 id = 2,
                 title = "Yovvoyi robot",
                 description = "Rozzum 7134 roboti (qisqartirilgan \"roz\") " +
@@ -63,21 +63,21 @@ class VideoApi {
                         "с обитающими там животными.",
                 thumbnailUrl = "https://asilmedia.org/uploads/mini/fullstory/a7/ff6ea176ac9e9ec4680123e7bb3362.webp",
                 sources = listOf(
-                    VideoSource(
-                        quality = VideoQuality.P480,
+                    VideoSourceDto(
+                        quality = VideoQualityDto.P480,
                         url = "https://fayllar1.ru/35/kinolar/Yovvoyi%20robot%202024%20480p%20O'zbek%20tilida%20(asilmedia.net).mp4"
                     ),
-                    VideoSource(
-                        quality = VideoQuality.P720,
+                    VideoSourceDto(
+                        quality = VideoQualityDto.P720,
                         url = "https://fayllar1.ru/36/kinolar/Yovvoyi%20robot%202024%20720p%20O'zbek%20tilida%20(asilmedia.net).mp4"
                     ),
-                    VideoSource(
-                        quality = VideoQuality.P1080,
+                    VideoSourceDto(
+                        quality = VideoQualityDto.P1080,
                         url = "https://fayllar1.ru/37/kinolar/Yovvoyi%20robot%202024%201080p%20O'zbek%20tilida%20(asilmedia.net).mp4"
                     )
                 )
             ),
-            VideoFile(
+            VideoDto(
                 id = 3,
                 title = "Mune: Oy qo'riqchisi",
                 description = "Хранитель Луны 2014 На диковинной планете, " +
@@ -101,44 +101,43 @@ class VideoApi {
                         "va xavfli sayohatga otlanishi kerak.",
                 thumbnailUrl = "https://asilmedia.org/uploads/mini/fullstory/45/c98f867bb8800f5558e38ba277ace9.webp",
                 sources = listOf(
-                    VideoSource(
-                        quality = VideoQuality.P480,
+                    VideoSourceDto(
+                        quality = VideoQualityDto.P480,
                         url = "https://fayllar1.ru/29/kinolar/Mune%20Oy%20qo'riqchisi%20480p%20(asilmedia.net).mp4"
                     ),
-                    VideoSource(
-                        quality = VideoQuality.P720,
+                    VideoSourceDto(
+                        quality = VideoQualityDto.P720,
                         url = "https://fayllar1.ru/33/kinolar/Mune%20Oy%20qo'riqchisi%20720p%20(asilmedia.net).mp4"
                     ),
-                    VideoSource(
-                        quality = VideoQuality.P1080,
+                    VideoSourceDto(
+                        quality = VideoQualityDto.P1080,
                         url = "https://fayllar1.ru/30/kinolar/Mune%20Oy%20qo'riqchisi%201080p%20(asilmedia.net).mp4"
                     )
                 )
             ),
-            VideoFile(
+            VideoDto(
                 id = 4,
                 title = "Kung Fu Panda 4",
                 description = "Afsonaviy Ajdar jangchisi, uning sodiq do'stlari va ustozi sarguzashtlarining davomi.\n" +
                         "Продолжение приключений легендарного воина По, его верных друзей и наставника.",
                 thumbnailUrl = "https://asilmedia.org/uploads/mini/fullstory/17/2a4882fe395526fc46eed102817ab3.webp",
                 sources = listOf(
-                    VideoSource(
-                        quality = VideoQuality.P480,
+                    VideoSourceDto(
+                        quality = VideoQualityDto.P480,
                         url = "https://fayllar1.ru/16/kinolar/Kung%20Fu%20Panda%204%20480p%20O'zbek%20tilida%20(asilmedia.net).mp4"
                     ),
-                    VideoSource(
-                        quality = VideoQuality.P720,
+                    VideoSourceDto(
+                        quality = VideoQualityDto.P720,
                         url = "https://fayllar1.ru/28/kinolar/Kung%20Fu%20Panda%204%20720p%20O'zbek%20tilida%20(asilmedia.net).mp4"
                     ),
-                    VideoSource(
-                        quality = VideoQuality.P1080,
+                    VideoSourceDto(
+                        quality = VideoQualityDto.P1080,
                         url = "https://fayllar1.ru/16/kinolar/Kung%20Fu%20Panda%204%201080p%20O'zbek%20tilida%20(asilmedia.net).mp4"
                     )
                 )
             ),
         )
 
-
-        return videoFiles
+        return videoFilesDto
     }
 }

@@ -5,6 +5,7 @@ import com.example.boxvideo.data.db.VideoDao
 import com.example.boxvideo.data.db.VideoDatabase
 import com.example.boxvideo.data.mapper.VideoMapper
 import com.example.boxvideo.data.remote.VideoApi
+import com.example.boxvideo.data.remote.mapper.DtoMapper
 import com.example.boxvideo.domain.model.VideoFile
 import com.example.boxvideo.domain.model.VideoPreview
 import kotlinx.coroutines.flow.Flow
@@ -13,12 +14,12 @@ import javax.inject.Inject
 class VideoRepositoryImpl @Inject constructor(
     private val videoApi: VideoApi,
     private val videoDao: VideoDao,
-    private val mapper: VideoEntityMapper,
+    private val videoDtoMapper: DtoMapper,
     private val database: VideoDatabase
 ) : VideoRepository {
     override suspend fun getVideos() {
-        val listOfVideosEntity = videoApi.getVideos().map {
-            mapper.domainToModel(it)
+        val listOfVideosEntity = videoApi.getVideos().map{
+            videoDtoMapper.modelToDomain(it)
         }
         database.withTransaction {
             if (listOfVideosEntity.isNotEmpty()) {
