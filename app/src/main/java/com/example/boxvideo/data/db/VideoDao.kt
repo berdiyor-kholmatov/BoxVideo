@@ -20,7 +20,7 @@ interface VideoDao {
 
     @Transaction
     @Query("SELECT * FROM videos WHERE id = :id")
-    suspend fun getVideoById(id: Int): Flow<VideoWithSources>
+    suspend fun getVideoById(id: Int): Flow<VideoWithSources?>
 
     @Query("DELETE FROM videos WHERE id NOT IN (:ids)")
     suspend fun deleteNotIn(ids: List<Int>)
