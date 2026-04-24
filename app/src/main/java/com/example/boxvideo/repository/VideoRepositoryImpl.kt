@@ -13,7 +13,7 @@ import javax.inject.Inject
 class VideoRepositoryImpl @Inject constructor(
     private val videoApi: VideoApi,
     private val videoDao: VideoDao,
-    private val mapper: VideoMapper,
+    private val mapper: VideoEntityMapper,
     private val database: VideoDatabase
 ) : VideoRepository {
     override suspend fun getVideos() {
@@ -30,8 +30,8 @@ class VideoRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getVideoPreviews(): Flow<List<VideoPreview>> {
-        return videoDao.getAllVideos()
+    override fun observeVideoPreviews(): Flow<List<VideoPreview>> {
+        return videoDao.observeAllVideos()
     }
 
     override suspend fun getVideoFileById(id: Int): VideoFile? {

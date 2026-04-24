@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.boxvideo.domain.model.VideoPreview
+import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -12,14 +12,16 @@ interface VideoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(videos: List<VideoEntity>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(videoSource: List<VideoSourceEntity>)
+
     @Query("SELECT id, title, thumbnailUrl FROM videos")
-    fun getAllVideos(): Flow<List<VideoPreview>>
+    fun observeAllVideos(): Flow<List<VideoPreviewDB>>
 
+    @Transaction
     @Query("SELECT * FROM videos WHERE id = :id")
-    suspend fun getVideoById(id: Int): VideoEntity?
+    suspend fun getVideoById(id: Int): Flow<VideoWithSources>
 
-    @Query("DELETE FROM videos WHERE id = :id")
-    suspend fun deleteVideoById(id: Int)
     @Query("DELETE FROM videos WHERE id NOT IN (:ids)")
     suspend fun deleteNotIn(ids: List<Int>)
 

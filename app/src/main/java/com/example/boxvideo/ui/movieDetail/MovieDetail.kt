@@ -1,4 +1,4 @@
-package com.example.boxvideo.ui.MovieDetail
+package com.example.boxvideo.ui.movieDetail
 
 import androidx.compose.runtime.Composable
 

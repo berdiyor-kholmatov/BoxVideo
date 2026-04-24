@@ -10,7 +10,6 @@ data class VideoEntity (
     val id: Int,
     val title: String,
     val description: String,
-    val thumbnailUrl: String,
-    val sources: List<VideoSource>
+    val thumbnailUrl: String
 )
 
