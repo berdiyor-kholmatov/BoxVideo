@@ -4,7 +4,6 @@ import androidx.room.withTransaction
 import com.example.boxvideo.data.db.VideoDao
 import com.example.boxvideo.data.db.VideoDatabase
 import com.example.boxvideo.data.db.mapper.VideoWithSourcesMapper
-import com.example.boxvideo.data.mapper.VideoMapper
 import com.example.boxvideo.data.remote.VideoApi
 import com.example.boxvideo.data.remote.mapper.DtoMapper
 import com.example.boxvideo.domain.model.VideoFile
@@ -48,13 +47,21 @@ class VideoRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getVideoFileById(id: Int): Flow<VideoFile?> {
-        return videoDao.getVideoById(id)?.let {
-            videoWithSourcesMapper.modelToDomain(it)
+        return videoDao.getVideoById(id).map { video ->
+            video?.let{
+                videoWithSourcesMapper.modelToDomain(it)
+            }
         }
     }
 
     override suspend fun insert(videoFile: VideoFile) {
-        videoDao.insert(listOf(mapper.domainToModel(videoFile)))
+
+        val videoWithSources = videoWithSourcesMapper.domainToModel(videoFile)
+
+        database.withTransaction {
+            videoDao.insert(listOf(videoWithSources.video))
+            videoDao.insert(videoWithSources.sources)
+        }
     }
 
     override suspend fun delete(id: Int) {

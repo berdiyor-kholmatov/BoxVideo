@@ -25,6 +25,9 @@ interface VideoDao {
     @Query("DELETE FROM videos WHERE id NOT IN (:ids)")
     suspend fun deleteNotIn(ids: List<Int>)
 
+    @Query("DELETE FROM videos WHERE id = :id")
+    suspend fun deleteVideoById(id: Int)
+
     @Query("DELETE FROM videos")
     suspend fun deleteAll()
 }
