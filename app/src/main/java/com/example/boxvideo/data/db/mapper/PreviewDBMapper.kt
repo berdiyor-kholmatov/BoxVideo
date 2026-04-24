@@ -2,7 +2,7 @@ package com.example.boxvideo.data.db.mapper
 
 import com.example.boxvideo.data.db.VideoPreviewDB
 import com.example.boxvideo.domain.model.VideoPreview
-import com.example.boxvideo.domain.util.Mapper
+import com.example.boxvideo.domain.mapper.Mapper
 
 class PreviewDBMapper: Mapper<VideoPreviewDB, VideoPreview> {
     override fun domainToModel(domain: VideoPreview): VideoPreviewDB {

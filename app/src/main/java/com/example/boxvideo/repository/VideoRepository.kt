@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface VideoRepository {
     suspend fun getVideos()
     fun observeVideoPreviews(): Flow<List<VideoPreview>>
-    suspend fun getVideoFileById(id: Int): Flow<VideoFile?>
+    fun getVideoFileById(id: Int): Flow<VideoFile?>
     suspend fun insert(videoFile: VideoFile)
     suspend fun delete(id: Int)
 }

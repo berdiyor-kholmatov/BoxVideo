@@ -5,7 +5,7 @@ import com.example.boxvideo.data.db.VideoSourceEntity
 import com.example.boxvideo.data.db.VideoWithSources
 import com.example.boxvideo.domain.model.VideoFile
 import com.example.boxvideo.domain.model.VideoSource
-import com.example.boxvideo.domain.util.Mapper
+import com.example.boxvideo.domain.mapper.Mapper
 import javax.inject.Inject
 
 class VideoWithSourcesMapper @Inject constructor (

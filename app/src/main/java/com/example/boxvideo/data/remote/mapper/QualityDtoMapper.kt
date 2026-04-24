@@ -2,9 +2,10 @@ package com.example.boxvideo.data.remote.mapper
 
 import com.example.boxvideo.data.remote.VideoQualityDto
 import com.example.boxvideo.domain.model.VideoQuality
-import com.example.boxvideo.domain.util.Mapper
+import com.example.boxvideo.domain.mapper.Mapper
+import javax.inject.Inject
 
-class QualityDtoMapper: Mapper<VideoQualityDto, VideoQuality> {
+class QualityDtoMapper @Inject constructor(): Mapper<VideoQualityDto, VideoQuality> {
     override fun domainToModel(domain: VideoQuality): VideoQualityDto {
         return when (domain) {
             VideoQuality.P480 -> VideoQualityDto.P480

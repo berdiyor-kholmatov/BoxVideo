@@ -2,7 +2,7 @@ package com.example.boxvideo.data.remote.mapper
 
 import com.example.boxvideo.data.remote.VideoDto
 import com.example.boxvideo.domain.model.VideoFile
-import com.example.boxvideo.domain.util.Mapper
+import com.example.boxvideo.domain.mapper.Mapper
 import javax.inject.Inject
 
 class DtoMapper @Inject constructor(

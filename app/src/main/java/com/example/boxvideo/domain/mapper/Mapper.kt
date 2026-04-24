@@ -1,4 +1,4 @@
-package com.example.boxvideo.domain.util
+package com.example.boxvideo.domain.mapper
 
 interface Mapper <M, D> {
     fun domainToModel(domain: D): M

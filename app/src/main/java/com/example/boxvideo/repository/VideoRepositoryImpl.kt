@@ -29,8 +29,8 @@ class VideoRepositoryImpl @Inject constructor(
             } else {
                 videoDao.deleteAll()
             }
-            videoDao.insert(listOfVideosEntity.map { it.video })
-            videoDao.insert(listOfVideosEntity.flatMap { it.sources })
+            videoDao.insertVideos(listOfVideosEntity.map { it.video })
+            videoDao.insertSources(listOfVideosEntity.flatMap { it.sources })
         }
     }
 
@@ -46,7 +46,7 @@ class VideoRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getVideoFileById(id: Int): Flow<VideoFile?> {
+    override fun getVideoFileById(id: Int): Flow<VideoFile?> {
         return videoDao.getVideoById(id).map { video ->
             video?.let{
                 videoWithSourcesMapper.modelToDomain(it)
@@ -59,8 +59,8 @@ class VideoRepositoryImpl @Inject constructor(
         val videoWithSources = videoWithSourcesMapper.domainToModel(videoFile)
 
         database.withTransaction {
-            videoDao.insert(listOf(videoWithSources.video))
-            videoDao.insert(videoWithSources.sources)
+            videoDao.insertVideos(listOf(videoWithSources.video))
+            videoDao.insertSources(videoWithSources.sources)
         }
     }
 

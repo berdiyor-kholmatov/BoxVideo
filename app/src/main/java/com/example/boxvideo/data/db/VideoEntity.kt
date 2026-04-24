@@ -6,7 +6,7 @@ import com.example.boxvideo.domain.model.VideoSource
 
 @Entity(tableName = "videos")
 data class VideoEntity (
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     val id: Int,
     val title: String,
     val description: String,

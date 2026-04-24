@@ -1,6 +1,8 @@
 package com.example.boxvideo.data.remote
 
-class VideoApiImpl: VideoApi {
+import javax.inject.Inject
+
+class VideoApiImpl @Inject constructor() : VideoApi {
     override suspend fun getVideos(): List<VideoDto> {
 
         val videoFilesDto: List<VideoDto> = listOf(
