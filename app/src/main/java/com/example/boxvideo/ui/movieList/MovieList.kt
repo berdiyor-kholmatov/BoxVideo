@@ -72,7 +72,9 @@ fun MovieList(state: MovieState, onEvent: (MovieEvents) -> Unit, onClick: (Int) 
                         .clip(RoundedCornerShape(6.dp))
                         .background(MaterialTheme.colorScheme.background)
                         .clickable(
-                            onClick = { }
+                            onClick = {
+                                onClick(video.id)
+                            }
                         )
 
                 ){
