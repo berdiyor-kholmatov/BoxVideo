@@ -34,6 +34,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.boxvideo.ui.movieList.MovieList
 import com.example.boxvideo.ui.movieList.MovieViewModel
+import com.example.boxvideo.ui.navigation.NavigationRoot
 import com.example.boxvideo.ui.theme.BoxVideoTheme
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.OkHttpClient
@@ -45,9 +46,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             BoxVideoTheme {
-                val movieList: MovieViewModel = hiltViewModel()
-                val state by movieList.state.collectAsState()
-                MovieList(state, movieList::onEvent)
+                NavigationRoot()
             }
         }
     }

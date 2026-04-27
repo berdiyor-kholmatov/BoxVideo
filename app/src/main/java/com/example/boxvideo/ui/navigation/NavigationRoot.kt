@@ -3,6 +3,8 @@ package com.example.boxvideo.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -11,10 +13,11 @@ import com.example.boxvideo.ui.movieDetail.Detail
 import com.example.boxvideo.ui.movieDetail.DetailViewModel
 import com.example.boxvideo.ui.movieList.MovieList
 import com.example.boxvideo.ui.movieList.MovieViewModel
+import kotlin.collections.MutableList
 
 @Composable
 fun NavigationRoot(){
-    val rootBackStack = rememberNavBackStack(Route.Home)
+    val rootBackStack: MutableList<Any> = remember { mutableStateListOf(Route.Home) }
     NavDisplay(
         backStack = rootBackStack,
         onBack = { rootBackStack.removeLastOrNull() },
