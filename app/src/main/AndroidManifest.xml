@@ -27,8 +27,9 @@
         </activity>
         <activity
             android:name=".ui.player.PlayerActivity"
-            android:screenOrientation="landscape" />
-
+            android:screenOrientation="landscape"
+            android:supportsPictureInPicture="true"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"/>
     </application>
 
 </manifest>
