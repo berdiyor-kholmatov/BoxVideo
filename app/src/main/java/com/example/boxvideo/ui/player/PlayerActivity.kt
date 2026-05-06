@@ -9,6 +9,7 @@ import android.util.Rational
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -47,6 +48,8 @@ import kotlin.text.toFloat
 @AndroidEntryPoint
 class PlayerActivity: ComponentActivity() {
 
+    private val playerViewModel: PlayerViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,7 +58,7 @@ class PlayerActivity: ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val playerViewModel: PlayerViewModel = hiltViewModel()
-            playerViewModel.getPlayerReady(videoId)
+//            playerViewModel.getPlayerReady(videoId)
 
             PlayerScreen(playerViewModel.player, playerViewModel)
         }
@@ -75,6 +78,22 @@ class PlayerActivity: ComponentActivity() {
     override fun onUserLeaveHint() {
         super.onUserLeaveHint()
         enterPiPMode()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("PlayerActivity", "onDestroy, isFinishing=$isFinishing")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("PlayerActivity", "onStop")
+        playerViewModel.player.release()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("PlayerActivity", "onPause, isInPiP=${isInPictureInPictureMode}")
     }
 }
 

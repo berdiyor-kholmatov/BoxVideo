@@ -2,6 +2,7 @@ package com.example.boxvideo.ui.player
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.MediaItem
@@ -24,11 +25,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlayerViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     @ApplicationContext private val context: Context,
     private val repository: VideoRepository,
 ): ViewModel() {
 
     val player = ExoPlayer.Builder(context).build()
+
+    private val videoId: Int = checkNotNull(savedStateHandle["videoId"])
     private val _state = MutableStateFlow(PlayerState())
     val state = _state.asStateFlow()
 
@@ -50,6 +54,8 @@ class PlayerViewModel @Inject constructor(
                 }
             }
         })
+
+        getPlayerReady(videoId)
     }
 
     fun getPlayerReady(movieId: Int) {
@@ -98,6 +104,7 @@ class PlayerViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
+        Log.d("PlayerViewModel", "onClearedCalled")
         player.release()
     }
 
