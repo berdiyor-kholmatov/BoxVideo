@@ -50,6 +50,8 @@ class PlayerActivity: ComponentActivity() {
 
     private val playerViewModel: PlayerViewModel by viewModels()
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
