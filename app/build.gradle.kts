@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
 }
@@ -53,6 +54,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.media3.ui)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -93,4 +95,15 @@ dependencies {
 
     //JSON
     implementation("com.google.code.gson:gson:2.10.1")
+
+    // ktor
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.content.negotiation)
+    implementation(libs.ktor.content.serialization)
+    implementation(libs.ktor.ktor.network)
+
+//    // chucker
+//    debugImplementation("com.github.chuckerteam.chucker:library:4.2.0")
+//    releaseImplementation("com.github.chuckerteam.chucker:library-no-op:4.2.0")
 }

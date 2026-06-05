@@ -4,16 +4,18 @@ import androidx.room.withTransaction
 import com.example.boxvideo.data.db.VideoDao
 import com.example.boxvideo.data.db.VideoDatabase
 import com.example.boxvideo.data.db.mapper.VideoWithSourcesMapper
-import com.example.boxvideo.data.remote.VideoApi
-import com.example.boxvideo.data.remote.mapper.DtoMapper
+import com.example.boxvideo.network.remote.VideoApi
+import com.example.boxvideo.network.remote.mapper.DtoMapper
 import com.example.boxvideo.domain.model.VideoFile
 import com.example.boxvideo.domain.model.VideoPreview
+import com.example.boxvideo.network.client.NetworkClient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class VideoRepositoryImpl @Inject constructor(
     private val videoApi: VideoApi,
+    private val networkClient: NetworkClient,
     private val videoDao: VideoDao,
     private val videoDtoMapper: DtoMapper,
     private val videoWithSourcesMapper: VideoWithSourcesMapper,
