@@ -1,10 +1,10 @@
 package com.example.boxvideo.ui.navigation
 
-import androidx.navigation3.runtime.NavKey
-
-
-
 sealed interface Route {
+
+    object Login: Route
+
+    object Register: Route
 
     object Home: Route
 

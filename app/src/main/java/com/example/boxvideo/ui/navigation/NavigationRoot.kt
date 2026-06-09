@@ -8,15 +8,19 @@ import androidx.compose.runtime.remember
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
+import com.example.boxvideo.ui.authorization.login.Login
+import com.example.boxvideo.ui.authorization.login.LoginViewModel
+import com.example.boxvideo.ui.authorization.register.RegisterViewModel
 import com.example.boxvideo.ui.movieDetail.Detail
 import com.example.boxvideo.ui.movieDetail.DetailViewModel
 import com.example.boxvideo.ui.movieList.MovieList
 import com.example.boxvideo.ui.movieList.MovieViewModel
 import kotlin.collections.MutableList
+import com.example.boxvideo.ui.authorization.register.Register
 
 @Composable
-fun NavigationRoot(){
-    val rootBackStack: MutableList<Any> = remember { mutableStateListOf(Route.Home) }
+fun NavigationRoot(destination: Route = Route.Login){
+    val rootBackStack: MutableList<Any> = remember { mutableStateListOf(destination) }
     NavDisplay(
         backStack = rootBackStack,
         onBack = { rootBackStack.removeLastOrNull() },
@@ -47,10 +51,21 @@ fun NavigationRoot(){
                         onClick = {}
                     )
                 }
+
+                is Route.Login -> NavEntry(key){
+                    val loginViewModel: LoginViewModel = hiltViewModel()
+                    val state by loginViewModel.state.collectAsState()
+                    Login(state, loginViewModel::onEvent)
+                }
+
+                is Route.Register -> NavEntry(key){
+                    val registerViewModel: RegisterViewModel = hiltViewModel()
+                    val state by registerViewModel.state.collectAsState()
+                    Register(state, registerViewModel::onEvent)
+                }
+
                 else -> throw IllegalArgumentException("Unknown route: $key")
             }
         }
     )
-
-
 }

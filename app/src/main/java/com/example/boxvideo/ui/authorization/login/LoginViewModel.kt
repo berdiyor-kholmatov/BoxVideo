@@ -21,6 +21,11 @@ class LoginViewModel @Inject constructor() : ViewModel() {
                     currentState.copy(username = event.username)
                 }
             }
+            is LoginEvents.PasswordInput -> {
+                _state.update { currentState ->
+                    currentState.copy(password = event.password)
+                }
+            }
         }
     }
 

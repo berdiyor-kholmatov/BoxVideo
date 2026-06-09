@@ -5,6 +5,7 @@ import com.example.boxvideo.domain.model.VideoPreview
 import kotlinx.coroutines.flow.Flow
 
 interface VideoRepository {
+    suspend fun checkAuth(): Boolean
     suspend fun getVideos()
     fun observeVideoPreviews(): Flow<List<VideoPreview>>
     fun getVideoFileById(id: Int): Flow<VideoFile?>

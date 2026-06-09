@@ -46,6 +46,8 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.datastore.core)
+    implementation(libs.androidx.datastore.preferences.core)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -102,6 +104,9 @@ dependencies {
     implementation(libs.ktor.content.negotiation)
     implementation(libs.ktor.content.serialization)
     implementation(libs.ktor.ktor.network)
+
+    //DataStore
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 
 //    // chucker
 //    debugImplementation("com.github.chuckerteam.chucker:library:4.2.0")
