@@ -1,4 +1,4 @@
-package com.example.boxvideo.network.remote
+package com.example.boxvideo.network.models.localVideoApi
 
 enum class VideoQualityDto {
     P480,

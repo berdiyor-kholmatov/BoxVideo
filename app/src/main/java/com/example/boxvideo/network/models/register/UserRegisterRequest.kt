@@ -1,4 +1,4 @@
-package com.example.boxvideo.network.remote.register
+package com.example.boxvideo.network.models.register
 
 import kotlinx.serialization.Serializable
 

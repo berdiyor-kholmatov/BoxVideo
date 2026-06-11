@@ -1,4 +1,4 @@
-package com.example.boxvideo.repository
+package com.example.boxvideo.repository.videoRepo
 
 import android.util.Log
 import androidx.room.withTransaction
@@ -7,8 +7,8 @@ import com.example.boxvideo.data.datastore.TokenStorageImpl
 import com.example.boxvideo.data.db.VideoDao
 import com.example.boxvideo.data.db.VideoDatabase
 import com.example.boxvideo.data.db.mapper.VideoWithSourcesMapper
-import com.example.boxvideo.network.remote.VideoApi
-import com.example.boxvideo.network.remote.mapper.DtoMapper
+import com.example.boxvideo.network.models.localVideoApi.VideoApi
+import com.example.boxvideo.network.models.mapper.DtoMapper
 import com.example.boxvideo.domain.model.VideoFile
 import com.example.boxvideo.domain.model.VideoPreview
 import com.example.boxvideo.network.client.NetworkClient
@@ -18,33 +18,12 @@ import javax.inject.Inject
 
 class VideoRepositoryImpl @Inject constructor(
     private val videoApi: VideoApi,
-    private val networkClient: NetworkClient,
-    private val tokenStorage: TokenStorageImpl,
     private val videoDao: VideoDao,
     private val videoDtoMapper: DtoMapper,
     private val videoWithSourcesMapper: VideoWithSourcesMapper,
     private val database: VideoDatabase
 ) : VideoRepository {
-    override suspend fun checkAuth(): Boolean {
-        val token = tokenStorage.getToken() ?: return false
 
-        token.let {
-            try {
-                val user = networkClient.get(
-                    url = "http://192.168.0.115:8080/auth/me",
-                    headers = mapOf("Authorization" to "Bearer $token"),
-                    responseType = User::class
-                )
-                Log.d("net", "User: $user")
-                return true
-            } catch (e: Exception) {
-                Log.e("net", "Error: ${e.message}", e)
-                return false
-            }
-        }
-
-
-    }
 
     override suspend fun getVideos() {
         val listOfVideosEntity = videoApi.getVideos().map {

@@ -1,6 +1,6 @@
-package com.example.boxvideo.network.remote.mapper
+package com.example.boxvideo.network.models.mapper
 
-import com.example.boxvideo.network.remote.VideoSourceDto
+import com.example.boxvideo.network.models.localVideoApi.VideoSourceDto
 import com.example.boxvideo.domain.model.VideoSource
 import com.example.boxvideo.domain.mapper.Mapper
 import javax.inject.Inject

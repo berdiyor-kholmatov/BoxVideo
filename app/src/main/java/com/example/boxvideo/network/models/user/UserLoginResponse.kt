@@ -1,4 +1,4 @@
-package com.example.boxvideo.network.remote.user
+package com.example.boxvideo.network.models.user
 
 import kotlinx.serialization.Serializable
 

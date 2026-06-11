@@ -43,7 +43,8 @@ import com.example.boxvideo.R
 @Composable
 fun Login (
   state: LoginState,
-  onEvent: (LoginEvents) -> Unit
+  onEvent: (LoginEvents) -> Unit,
+  onRegister: () -> Unit
 ) {
 
     Column( modifier = Modifier
@@ -147,7 +148,7 @@ fun Login (
 
 
         Button(
-            onClick = { /* Твое действие */ },
+            onClick = { onEvent(LoginEvents.LoginPressed) },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
@@ -253,5 +254,5 @@ fun SignInMethodsBox(icon: Int, onClick: () -> Unit){
 )
 @Composable
 fun LoginView(){
-    Login(LoginState()) { print("Event: $it") }
+    Login(LoginState(), { print("Event: $it") }, {})
 }

@@ -3,8 +3,8 @@ package com.example.boxvideo.di
 import android.content.Context
 //import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.boxvideo.network.client.NetworkClient
-import com.example.boxvideo.network.remote.VideoApi
-import com.example.boxvideo.network.remote.VideoApiImpl
+import com.example.boxvideo.network.models.localVideoApi.VideoApi
+import com.example.boxvideo.network.models.localVideoApi.VideoApiImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

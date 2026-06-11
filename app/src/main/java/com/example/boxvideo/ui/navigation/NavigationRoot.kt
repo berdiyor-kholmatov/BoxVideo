@@ -18,6 +18,8 @@ import com.example.boxvideo.ui.movieList.MovieViewModel
 import kotlin.collections.MutableList
 import com.example.boxvideo.ui.authorization.register.Register
 
+
+
 @Composable
 fun NavigationRoot(destination: Route = Route.Login){
     val rootBackStack: MutableList<Any> = remember { mutableStateListOf(destination) }
@@ -55,7 +57,14 @@ fun NavigationRoot(destination: Route = Route.Login){
                 is Route.Login -> NavEntry(key){
                     val loginViewModel: LoginViewModel = hiltViewModel()
                     val state by loginViewModel.state.collectAsState()
-                    Login(state, loginViewModel::onEvent)
+                    Login(
+                        state = state,
+                        onEvent = loginViewModel::onEvent,
+                        onRegister = {
+                            rootBackStack.clear()
+                            rootBackStack.add(Route.Register)
+                        }
+                    )
                 }
 
                 is Route.Register -> NavEntry(key){

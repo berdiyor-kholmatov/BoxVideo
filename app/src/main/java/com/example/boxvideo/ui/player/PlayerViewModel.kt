@@ -9,7 +9,9 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.boxvideo.domain.model.VideoFile
-import com.example.boxvideo.repository.VideoRepository
+import com.example.boxvideo.repository.networkRepo.NetworkRepository
+import com.example.boxvideo.repository.videoRepo.VideoRepository
+import com.example.boxvideo.session.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +28,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PlayerViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    @ApplicationContext private val context: Context,
+    @ApplicationContext private val context: Context, //I will diminish it, but later, when i will be sure that there is no warnings!
     private val repository: VideoRepository,
 ): ViewModel() {
 

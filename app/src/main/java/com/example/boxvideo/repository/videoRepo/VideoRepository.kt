@@ -1,11 +1,10 @@
-package com.example.boxvideo.repository
+package com.example.boxvideo.repository.videoRepo
 
 import com.example.boxvideo.domain.model.VideoFile
 import com.example.boxvideo.domain.model.VideoPreview
 import kotlinx.coroutines.flow.Flow
 
 interface VideoRepository {
-    suspend fun checkAuth(): Boolean
     suspend fun getVideos()
     fun observeVideoPreviews(): Flow<List<VideoPreview>>
     fun getVideoFileById(id: Int): Flow<VideoFile?>

@@ -2,8 +2,10 @@ package com.example.boxvideo.ui.movieList
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,6 +22,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -111,5 +114,15 @@ fun MovieList(state: MovieState, onEvent: (MovieEvents) -> Unit, onClick: (Int) 
             }
         }
     )
+
+    Button(
+        modifier = Modifier.padding(6.dp)
+            .clip(RoundedCornerShape(6.dp)),
+        onClick = {
+            onEvent(MovieEvents.LogOut)
+        },
+    ) {
+        Text("log out")
+    }
 
 }

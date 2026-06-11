@@ -11,6 +11,8 @@ import dagger.hilt.components.SingletonComponent
 import androidx.datastore.preferences.core.Preferences
 import javax.inject.Singleton
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.example.boxvideo.data.datastore.TokenStorage
+import com.example.boxvideo.data.datastore.TokenStorageImpl
 
 
 @Module
@@ -29,5 +31,11 @@ object DataStoreModule {
                 )
             }
         )
+    }
+
+    @Provides
+    @Singleton
+    fun providesTokenStorage(impl: TokenStorageImpl): TokenStorage {
+        return impl
     }
 }

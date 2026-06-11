@@ -5,8 +5,15 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.lifecycleScope
 //import com.chuckerteam.chucker.api.ChuckerInterceptor
@@ -60,11 +67,16 @@ class MainActivity : ComponentActivity() {
             BoxVideoTheme {
 //                NavigationRoot()
                 val activityViewModel = hiltViewModel<ActivityViewModel>()
-                val state by activityViewModel.appState.collectAsState()
+                val appState by activityViewModel.appState.collectAsState()
 
                 when(appState) {
                     AppState.Loading -> {
-
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ){
+                            CircularProgressIndicator()
+                        }
                     }
                     AppState.Authorized -> {
                         NavigationRoot(Route.Home)

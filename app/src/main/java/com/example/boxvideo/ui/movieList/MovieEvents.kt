@@ -1,4 +1,7 @@
 package com.example.boxvideo.ui.movieList
 
-class MovieEvents {
+import com.example.boxvideo.ui.player.PlayerEvents
+
+sealed class MovieEvents {
+    object LogOut: MovieEvents()
 }
