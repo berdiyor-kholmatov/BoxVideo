@@ -28,7 +28,7 @@ class AuthorizationRepositoryImpl @Inject constructor(
                     headers = mapOf("Authorization" to "Bearer $token"),
                     responseType = User::class
                 )
-                Log.d("net", "User: $user")
+//                Log.d("net", "User: $user")
                 return true
             } catch (e: Exception) {
                 Log.e("net", "Error: ${e.message}", e)

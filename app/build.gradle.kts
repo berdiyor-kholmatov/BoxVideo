@@ -119,4 +119,5 @@ dependencies {
 //    // chucker
 //    debugImplementation("com.github.chuckerteam.chucker:library:4.2.0")
 //    releaseImplementation("com.github.chuckerteam.chucker:library-no-op:4.2.0")
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
 }

@@ -1,6 +1,7 @@
 package com.example.boxvideo.ui.authorization.login
 
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -22,6 +23,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -40,17 +42,16 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.example.boxvideo.R
 
 @Composable
 fun Login (
-//  state: LoginState,
-  loginViewModel: LoginViewModel,
+  state: LoginState,
   onEvent: (LoginEvents) -> Unit,
   onRegister: () -> Unit
 ) {
-
-    val state by loginViewModel.state.collectAsState()
 
     Column( modifier = Modifier
         .fillMaxSize()

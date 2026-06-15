@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 //import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.boxvideo.network.client.NetworkClient
 import com.example.boxvideo.ui.navigation.NavigationRoot
@@ -57,7 +59,7 @@ class MainActivity : ComponentActivity() {
                         NavigationRoot(Route.Home)
                     }
                     AppState.Unauthorized -> {
-                        NavigationRoot(Route.Login)
+                        NavigationRoot(Route.Login())
                     }
                 }
             }
