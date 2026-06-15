@@ -44,11 +44,13 @@ import com.example.boxvideo.R
 
 @Composable
 fun Login (
-  state: LoginState,
+//  state: LoginState,
+  loginViewModel: LoginViewModel,
   onEvent: (LoginEvents) -> Unit,
-  onRegister: () -> Unit,
-  onLogin: () -> Unit
+  onRegister: () -> Unit
 ) {
+
+    val state by loginViewModel.state.collectAsState()
 
     Column( modifier = Modifier
         .fillMaxSize()
@@ -151,7 +153,7 @@ fun Login (
 
 
         Button(
-            onClick = { onEvent(LoginEvents.LoginPressed(onLogin)) },
+            onClick = { onEvent(LoginEvents.LoginPressed) },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),

@@ -66,20 +66,17 @@ fun NavigationRoot(destination: Route = Route.Login){
                 }
 
                 is Route.Login -> NavEntry(key){
-                    val loginViewModel: LoginViewModel = hiltViewModel()
-                    Log.d("promlem", "recomposition")
-                    val state by loginViewModel.state.collectAsState()
+                    val loginViewModel: LoginViewModel = hiltViewModel(
+                        key = random().toString()
+                    )
+//                    val state by loginViewModel.state.collectAsState()
                     Login(
-                        state = state,
+//                        state = state,
+                        loginViewModel = loginViewModel,
                         onEvent = loginViewModel::onEvent,
                         onRegister = {
                             rootBackStack.removeLastOrNull()
                             rootBackStack.add(Route.Register)
-                        },
-                        onLogin = {
-                            Log.d("LOGIN_VM","$rootBackStack")
-                            rootBackStack.removeLastOrNull()
-                            Log.d("LOGIN_VM","$rootBackStack")
                         }
                     )
                 }

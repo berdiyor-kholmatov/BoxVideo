@@ -55,7 +55,6 @@ class LoginViewModel @Inject constructor(
                 if(_state.value.password.isEmpty() || _state.value.username.isEmpty()) return
                 viewModelScope.launch {
                     if (authorizationRepository.login(_state.value.username, _state.value.password)){
-                        event.onSuccess()
                         authorizationRepository.setAuthState(AppState.Authorized)
                     }
                     else{
