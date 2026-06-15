@@ -1,9 +1,6 @@
 package com.example.boxvideo.repository.videoRepo
 
-import android.util.Log
 import androidx.room.withTransaction
-import com.example.boxvideo.User
-import com.example.boxvideo.data.datastore.TokenStorageImpl
 import com.example.boxvideo.data.db.VideoDao
 import com.example.boxvideo.data.db.VideoDatabase
 import com.example.boxvideo.data.db.mapper.VideoWithSourcesMapper
@@ -11,7 +8,6 @@ import com.example.boxvideo.network.models.localVideoApi.VideoApi
 import com.example.boxvideo.network.models.mapper.DtoMapper
 import com.example.boxvideo.domain.model.VideoFile
 import com.example.boxvideo.domain.model.VideoPreview
-import com.example.boxvideo.network.client.NetworkClient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

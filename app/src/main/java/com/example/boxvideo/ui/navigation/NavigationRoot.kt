@@ -1,5 +1,6 @@
 package com.example.boxvideo.ui.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -17,12 +18,21 @@ import com.example.boxvideo.ui.movieList.MovieList
 import com.example.boxvideo.ui.movieList.MovieViewModel
 import kotlin.collections.MutableList
 import com.example.boxvideo.ui.authorization.register.Register
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid.Companion.random
 
 
-
+@OptIn(ExperimentalUuidApi::class)
 @Composable
 fun NavigationRoot(destination: Route = Route.Login){
-    val rootBackStack: MutableList<Any> = remember { mutableStateListOf(destination) }
+//    val rootBackStack: MutableList<Any> = remember { mutableStateListOf(destination) }
+
+    val rootBackStack = remember(destination) {
+
+        mutableStateListOf(destination)
+
+    }
+
     NavDisplay(
         backStack = rootBackStack,
         onBack = { rootBackStack.removeLastOrNull() },
@@ -35,7 +45,8 @@ fun NavigationRoot(destination: Route = Route.Login){
                     MovieList(
                         state,
                         movieList::onEvent,
-                        onClick = { rootBackStack.add(Route.Details(it))})
+                        onClick = { rootBackStack.add(Route.Details(it))}
+                    )
                 }
 
                 is Route.Details -> NavEntry(key) {
@@ -56,13 +67,19 @@ fun NavigationRoot(destination: Route = Route.Login){
 
                 is Route.Login -> NavEntry(key){
                     val loginViewModel: LoginViewModel = hiltViewModel()
+                    Log.d("promlem", "recomposition")
                     val state by loginViewModel.state.collectAsState()
                     Login(
                         state = state,
                         onEvent = loginViewModel::onEvent,
                         onRegister = {
-                            rootBackStack.clear()
+                            rootBackStack.removeLastOrNull()
                             rootBackStack.add(Route.Register)
+                        },
+                        onLogin = {
+                            Log.d("LOGIN_VM","$rootBackStack")
+                            rootBackStack.removeLastOrNull()
+                            Log.d("LOGIN_VM","$rootBackStack")
                         }
                     )
                 }

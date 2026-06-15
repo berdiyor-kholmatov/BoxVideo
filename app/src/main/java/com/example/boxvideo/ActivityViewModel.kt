@@ -2,40 +2,32 @@ package com.example.boxvideo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.boxvideo.repository.networkRepo.NetworkRepository
-import com.example.boxvideo.repository.videoRepo.VideoRepository
-import com.example.boxvideo.session.SessionManager
+import com.example.boxvideo.repository.authorizationRepo.AuthorizationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
 class ActivityViewModel @Inject constructor(
-    private val networkRepository: NetworkRepository,
-    private val sessionManager: SessionManager
+    private val authorizationRepository: AuthorizationRepository,
 ): ViewModel() {
-
-    private val _appState = MutableStateFlow<AppState>(AppState.Loading)
-    val appState = _appState.asStateFlow()
-
-    init {
-        viewModelScope.launch {
-            sessionManager.appState.collect {
-                _appState.value = it
-            }
-        }
-    }
-
+    val appState: StateFlow<AppState> = authorizationRepository.observeAuthState()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = AppState.Loading
+        )
 
     init {
         viewModelScope.launch {
-                if(networkRepository.checkAuth()) sessionManager.authorize() else sessionManager.unauthorize()
+            if(authorizationRepository.checkAuth())
+                authorizationRepository.setAuthState(AppState.Authorized)
+            else
+                authorizationRepository.setAuthState(AppState.Unauthorized)
         }
     }
-
-
 }

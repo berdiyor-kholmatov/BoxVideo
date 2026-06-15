@@ -38,34 +38,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        lifecycleScope.launch {
-            try {
-                val client = HttpClient(OkHttp) {
-                    install(ContentNegotiation) {
-                        json(Json { ignoreUnknownKeys = true })
-                    }
-                }
-                val networkClient = NetworkClient(client)
-                val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwOi8vMC4wLjAuMDo4MDgwL2hlbGxvIiwiaXNzIjoiaHR0cDovLzAuMC4wLjA6ODA4MCIsImxvZ2luIjoiU3RyaW5nIiwicm9sZSI6IlVTRVIiLCJleHAiOjE3ODA1Njk5MDN9.n3MW4UDiLAblfXwIK5b2A_gdrfQCxesPeOPwKh_jW54"
-
-                val user = networkClient.get(
-                    url = "http://192.168.0.103:8080/auth/me",
-                    headers = mapOf("Authorization" to "Bearer $token"),
-                    responseType = User::class
-                )
-                Log.d("net", "User: $user")
-            } catch (e: Exception) {
-                Log.e("net", "Error: ${e.message}", e)
-            }
-        }
-
-
-
-
         enableEdgeToEdge()
         setContent {
             BoxVideoTheme {
-//                NavigationRoot()
                 val activityViewModel = hiltViewModel<ActivityViewModel>()
                 val appState by activityViewModel.appState.collectAsState()
 
@@ -85,12 +60,6 @@ class MainActivity : ComponentActivity() {
                         NavigationRoot(Route.Login)
                     }
                 }
-
-
-
-//                val loginViewModel = hiltViewModel<LoginViewModel>()
-//                val state by loginViewModel.state.collectAsState()
-//                Login(state, loginViewModel::onEvent)
             }
         }
     }

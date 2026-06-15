@@ -22,6 +22,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,7 +46,8 @@ import com.example.boxvideo.R
 fun Login (
   state: LoginState,
   onEvent: (LoginEvents) -> Unit,
-  onRegister: () -> Unit
+  onRegister: () -> Unit,
+  onLogin: () -> Unit
 ) {
 
     Column( modifier = Modifier
@@ -148,7 +151,7 @@ fun Login (
 
 
         Button(
-            onClick = { onEvent(LoginEvents.LoginPressed) },
+            onClick = { onEvent(LoginEvents.LoginPressed(onLogin)) },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
@@ -248,11 +251,11 @@ fun SignInMethodsBox(icon: Int, onClick: () -> Unit){
     }
 }
 
-
-@Preview(
-    showSystemUi = true,
-)
-@Composable
-fun LoginView(){
-    Login(LoginState(), { print("Event: $it") }, {})
-}
+//
+//@Preview(
+//    showSystemUi = true,
+//)
+//@Composable
+//fun LoginView(){
+//    Login(LoginState(), { print("Event: $it") }, {})
+//}

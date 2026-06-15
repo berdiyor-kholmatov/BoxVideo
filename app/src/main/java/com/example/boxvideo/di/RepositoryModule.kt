@@ -1,7 +1,7 @@
 package com.example.boxvideo.di
 
-import com.example.boxvideo.repository.networkRepo.NetworkRepository
-import com.example.boxvideo.repository.networkRepo.NetworkRepositoryImpl
+import com.example.boxvideo.repository.authorizationRepo.AuthorizationRepository
+import com.example.boxvideo.repository.authorizationRepo.AuthorizationRepositoryImpl
 import com.example.boxvideo.repository.videoRepo.VideoRepository
 import com.example.boxvideo.repository.videoRepo.VideoRepositoryImpl
 import dagger.Module
@@ -18,7 +18,7 @@ class RepositoryModule {
     }
 
     @Provides
-    fun provideNetworkRepository(impl: NetworkRepositoryImpl): NetworkRepository {
+    fun provideNetworkRepository(impl: AuthorizationRepositoryImpl): AuthorizationRepository {
         return impl
     }
 }

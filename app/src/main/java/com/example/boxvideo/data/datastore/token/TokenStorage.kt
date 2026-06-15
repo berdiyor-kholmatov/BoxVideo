@@ -1,4 +1,4 @@
-package com.example.boxvideo.data.datastore
+package com.example.boxvideo.data.datastore.token
 
 interface TokenStorage {
     suspend fun saveToken(

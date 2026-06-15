@@ -1,9 +1,10 @@
 package com.example.boxvideo.ui.authorization.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.boxvideo.ActivityViewModel
-import com.example.boxvideo.repository.networkRepo.NetworkRepository
+import com.example.boxvideo.AppState
+import com.example.boxvideo.repository.authorizationRepo.AuthorizationRepository
 import com.example.boxvideo.session.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
@@ -15,9 +16,23 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val sessionManager: SessionManager,
-    private val networkRepository: NetworkRepository
+    private val authorizationRepository: AuthorizationRepository
 ) : ViewModel() {
+
+
+    init {
+
+        Log.d("LOGIN_VM", "created ${hashCode()}")
+
+    }
+
+    override fun onCleared() {
+
+        Log.d("LOGIN_VM", "cleared ${hashCode()}")
+
+        super.onCleared()
+
+    }
 
     private val _state = MutableStateFlow(LoginState())
     val state: StateFlow<LoginState> = _state.asStateFlow()
@@ -39,12 +54,15 @@ class LoginViewModel @Inject constructor(
 
                 if(_state.value.password.isEmpty() || _state.value.username.isEmpty()) return
                 viewModelScope.launch {
-                    if (networkRepository.login(_state.value.username, _state.value.password))
-                        sessionManager.authorize()
-                    else
+                    if (authorizationRepository.login(_state.value.username, _state.value.password)){
+                        event.onSuccess()
+                        authorizationRepository.setAuthState(AppState.Authorized)
+                    }
+                    else{
                         _state.update { currentState ->
                             currentState.copy(error = true)
                         }
+                    }
                 }
             }
         }

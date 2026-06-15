@@ -1,4 +1,4 @@
-package com.example.boxvideo.data.datastore
+package com.example.boxvideo.data.datastore.token
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
