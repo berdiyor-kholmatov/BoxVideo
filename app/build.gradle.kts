@@ -25,8 +25,8 @@ android {
         buildConfigField(
             "String",
             "BASE_URL",
-//            "\"http://192.168.0.115:8080\""
-            "\"http://192.168.0.103:8080\""
+//          "\"http://192.168.3.157:8080\""
+            "\"http://192.168.0.107:8080\""
         )
     }
 
@@ -53,6 +53,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.datastore.core)
     implementation(libs.androidx.datastore.preferences.core)

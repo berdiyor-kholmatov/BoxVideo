@@ -20,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 //import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.boxvideo.network.client.NetworkClient
+import com.example.boxvideo.ui.navigation.LoginNavigation
 import com.example.boxvideo.ui.navigation.NavigationRoot
 import com.example.boxvideo.ui.navigation.Route
 import com.example.boxvideo.ui.theme.BoxVideoTheme
@@ -35,7 +36,8 @@ import kotlinx.serialization.json.Json
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-
+    val loginInstances: MutableList<Route.Login> = mutableListOf<Route.Login>()
+    var counter = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,10 +58,18 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                     AppState.Authorized -> {
-                        NavigationRoot(Route.Home)
+                        NavigationRoot()
                     }
                     AppState.Unauthorized -> {
-                        NavigationRoot(Route.Login())
+                        //NavigationRoot(Route.Login())
+                        if (loginInstances.size < 2){
+                            val login = Route.Login()
+                            loginInstances.add(login)
+                        }
+
+                        counter+=1
+
+                        LoginNavigation(if(counter%2 == 1) loginInstances[0] else loginInstances[1])
                     }
                 }
             }

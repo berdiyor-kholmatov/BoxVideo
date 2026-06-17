@@ -28,13 +28,10 @@ import kotlin.uuid.Uuid.Companion.random
 
 @OptIn(ExperimentalUuidApi::class)
 @Composable
-fun NavigationRoot(destination: Route = Route.Login()){
+fun NavigationRoot(){
 //    val rootBackStack: MutableList<Any> = remember { mutableStateListOf(destination) }
-
-    val rootBackStack = remember(destination) {
-
-        mutableStateListOf(destination)
-
+    val rootBackStack = remember {
+        mutableStateListOf<Route>(Route.Home)
     }
 
     NavDisplay(
@@ -72,36 +69,6 @@ fun NavigationRoot(destination: Route = Route.Login()){
                         onClick = {}
                     )
                 }
-
-                is Route.Login -> NavEntry(key){
-
-                    val vmStoreOwner = LocalViewModelStoreOwner.current
-
-                    LaunchedEffect(Unit) {
-                        Log.d("VM_STORE_NAVIGATION", "owner: ${vmStoreOwner.hashCode()}")
-                        Log.d("VM_STORE_NAVIGATION", "store: ${vmStoreOwner?.viewModelStore.hashCode()}")
-//                        Log.d("VM_STORE", "store: ${vmStoreOwner?.viewModelStore?.clear()}")
-                    }
-
-                    val loginViewModel: LoginViewModel = hiltViewModel()
-                    val state by loginViewModel.state.collectAsState()
-
-                    Login(
-                        state = state,
-                        onEvent = loginViewModel::onEvent,
-                        onRegister = {
-                            rootBackStack.removeLastOrNull()
-                            rootBackStack.add(Route.Register)
-                        }
-                    )
-                }
-
-                is Route.Register -> NavEntry(key){
-                    val registerViewModel: RegisterViewModel = hiltViewModel()
-                    val state by registerViewModel.state.collectAsState()
-                    Register(state, registerViewModel::onEvent)
-                }
-
                 else -> throw IllegalArgumentException("Unknown route: $key")
             }
         }

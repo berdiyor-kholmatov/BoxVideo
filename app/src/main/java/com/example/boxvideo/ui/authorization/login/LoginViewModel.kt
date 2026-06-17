@@ -64,6 +64,12 @@ class LoginViewModel @Inject constructor(
                     }
                 }
             }
+
+            is LoginEvents.PasswordSwitchVisibility -> {
+                _state.update {
+                    _state.value.copy(isPasswordHidden = !_state.value.isPasswordHidden)
+                }
+            }
         }
     }
 

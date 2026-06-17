@@ -21,6 +21,7 @@ ktor = "3.3.3"
 datastoreCore = "1.2.1"
 datastorePreferencesCore = "1.2.1"
 lifecycleViewmodelNav3 = "2.9.0"
+foundation = "1.11.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -60,6 +61,7 @@ androidx-datastore-preferences-core = { group = "androidx.datastore", name = "da
 
 
 androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycleViewmodelNav3" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 
 
 [plugins]

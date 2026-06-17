@@ -16,9 +16,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -36,6 +41,8 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
@@ -45,6 +52,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import com.example.boxvideo.R
+import com.example.boxvideo.ui.authorization.register.RegisterEvents
 
 @Composable
 fun Login (
@@ -129,6 +137,22 @@ fun Login (
             label = {
                 Text(text = "Password")
             },
+            trailingIcon = {
+                IconButton(
+                    modifier = Modifier
+                        .size(56.dp)
+                        .padding(16.dp),
+                    onClick = { onEvent(LoginEvents.PasswordSwitchVisibility) }
+                ) {
+                    Icon(
+                        modifier = Modifier.size(24.dp),
+                        imageVector =  if(state.isPasswordHidden) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                        contentDescription = if (state.isPasswordHidden) "Show password" else "Hide password",
+                        tint =  Color(0xFF111827),
+                    )
+                }
+            },
+            visualTransformation = if(state.isPasswordHidden) PasswordVisualTransformation() else VisualTransformation.None,
             shape = RoundedCornerShape(6.dp),
             colors = OutlinedTextFieldDefaults.colors(
                 // Цвет текста внутри поля
@@ -222,7 +246,9 @@ fun Login (
                                 fontWeight = FontWeight.Bold,
                             )
                         ),
-                        linkInteractionListener = { }
+                        linkInteractionListener = {
+                            onRegister()
+                        }
                     )
                 ) {
                     append("Register")
@@ -254,11 +280,11 @@ fun SignInMethodsBox(icon: Int, onClick: () -> Unit){
     }
 }
 
-//
-//@Preview(
-//    showSystemUi = true,
-//)
-//@Composable
-//fun LoginView(){
-//    Login(LoginState(), { print("Event: $it") }, {})
-//}
+
+@Preview(
+    showSystemUi = true,
+)
+@Composable
+fun LoginView(){
+    Login(LoginState(), { print("Event: $it") }, {})
+}
