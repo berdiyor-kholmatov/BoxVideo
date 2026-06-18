@@ -7,7 +7,7 @@ interface AuthorizationRepository {
     suspend fun checkAuth(): Boolean
 
     suspend fun login(login: String, password: String): Boolean
-//    suspend fun register()
+    suspend fun register(login: String, email: String, password: String): Boolean
     suspend fun logOut()
 
     suspend fun setAuthState(state: AppState)

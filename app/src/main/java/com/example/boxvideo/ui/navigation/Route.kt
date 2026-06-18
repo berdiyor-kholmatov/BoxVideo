@@ -1,13 +1,12 @@
 package com.example.boxvideo.ui.navigation
 
+import java.util.UUID
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid.Companion.random
 
 sealed interface Route {
 
-    data class Login @OptIn(ExperimentalUuidApi::class) constructor(
-        val id: String = random().toString()
-    ): Route
+    object Login : Route
 
     object Register: Route
 

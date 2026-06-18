@@ -5,9 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.boxvideo.AppState
 import com.example.boxvideo.repository.authorizationRepo.AuthorizationRepository
+import com.example.boxvideo.repository.authorizationRepo.AuthorizationRepositoryImpl
 import com.example.boxvideo.session.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -51,9 +53,17 @@ class LoginViewModel @Inject constructor(
                 }
             }
             is LoginEvents.LoginPressed -> {
+                if(_state.value.password.isEmpty() || _state.value.username.isEmpty()) _state.update {
+                    _state.value.copy(error = true)
+                }
 
-                if(_state.value.password.isEmpty() || _state.value.username.isEmpty()) return
                 viewModelScope.launch {
+
+                    _state.update {
+                        _state.value.copy(isLoading = true)
+                    }
+
+                    delay(5000)
                     if (authorizationRepository.login(_state.value.username, _state.value.password)){
                         authorizationRepository.setAuthState(AppState.Authorized)
                     }
@@ -61,6 +71,10 @@ class LoginViewModel @Inject constructor(
                         _state.update { currentState ->
                             currentState.copy(error = true)
                         }
+                    }
+
+                    _state.update {
+                        _state.value.copy(isLoading = false)
                     }
                 }
             }
@@ -72,6 +86,4 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
-
-
 }

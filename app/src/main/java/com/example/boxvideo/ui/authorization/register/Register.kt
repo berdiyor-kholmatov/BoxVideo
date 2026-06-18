@@ -123,14 +123,12 @@ fun Register (
             )
         )
 
-//        Spacer(modifier = Modifier.height(0.dp))
-
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
-            value = state.password,
+            value = state.email,
             onValueChange = {
-                onEvent(RegisterEvents.PasswordInput(it))
+                onEvent(RegisterEvents.EmailInput(it))
             },
             enabled = !state.isLoading,
             label = {
@@ -156,8 +154,6 @@ fun Register (
                 unfocusedLabelColor = Color.Gray
             )
         )
-
-//        Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
             modifier = Modifier
@@ -207,14 +203,12 @@ fun Register (
             )
         )
 
-//        Spacer(modifier = Modifier.height(8.dp))
-
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
-            value = state.password,
+            value = state.passwordConfirmation,
             onValueChange = {
-                onEvent(RegisterEvents.PasswordInput(it))
+                onEvent(RegisterEvents.PasswordConfirmationInput(it))
             },
             enabled = !state.isLoading,
             label = {

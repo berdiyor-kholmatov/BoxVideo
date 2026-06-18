@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -173,6 +174,19 @@ fun Login (
                 unfocusedLabelColor = Color.Gray
             )
         )
+
+        if(state.isLoading) {
+            Spacer(modifier = Modifier.height(16.dp))
+            CircularProgressIndicator()
+        }
+
+        if(state.error) {
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Error, try later again",
+                color = Color.Red
+            )
+        }
 
         Spacer(modifier = Modifier.height(24.dp))
 

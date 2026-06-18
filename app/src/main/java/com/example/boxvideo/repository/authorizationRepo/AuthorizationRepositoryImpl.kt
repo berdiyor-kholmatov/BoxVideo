@@ -7,6 +7,8 @@ import com.example.boxvideo.User
 import com.example.boxvideo.data.datastore.authstate.AuthorizationStorage
 import com.example.boxvideo.data.datastore.token.TokenStorage
 import com.example.boxvideo.network.client.NetworkClient
+import com.example.boxvideo.network.models.register.UserRegisterRequest
+import com.example.boxvideo.network.models.register.UserRegisterResponse
 import com.example.boxvideo.network.models.user.UserLoginRequest
 import com.example.boxvideo.network.models.user.UserLoginResponse
 import kotlinx.coroutines.flow.Flow
@@ -46,6 +48,27 @@ class AuthorizationRepositoryImpl @Inject constructor(
                 headers = emptyMap(),
                 body = UserLoginRequest(login, password),
                 responseType = UserLoginResponse::class
+            )
+            Log.d("net", "User: $response")
+            tokenStorage.saveToken(response.token)
+            return true
+        } catch (e: Exception) {
+            Log.e("net", "Error: ${e.message}", e)
+            return false
+        }
+    }
+
+    override suspend fun register(
+        login: String,
+        email: String,
+        password: String
+    ): Boolean {
+        try {
+            val response = networkClient.post(
+                url = "${BuildConfig.BASE_URL}/auth/register",
+                headers = emptyMap(),
+                body = UserRegisterRequest(login = login, email = email, password = password),
+                responseType = UserRegisterResponse::class
             )
             Log.d("net", "User: $response")
             tokenStorage.saveToken(response.token)
