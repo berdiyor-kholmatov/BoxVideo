@@ -149,7 +149,7 @@ fun Login (
                         modifier = Modifier.size(24.dp),
                         imageVector =  if(state.isPasswordHidden) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
                         contentDescription = if (state.isPasswordHidden) "Show password" else "Hide password",
-                        tint =  Color(0xFF111827),
+                        tint =  if(state.isLoading) Color.Gray.copy(alpha = 0.4f) else Color(0xFF111827),
                     )
                 }
             },

@@ -9,6 +9,8 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.example.boxvideo.AppState
+import com.example.boxvideo.ui.authorization.navigation.AuthorizationNavigation
+import com.example.boxvideo.ui.main.navigation.MainNavigation
 import kotlin.collections.listOf
 
 @Composable
@@ -16,7 +18,7 @@ fun RootNavigation(appState: AppState){
 
     val rootBackStack = remember {
         mutableStateListOf<Route>(
-            if (appState == AppState.Authorized) Route.Home else Route.Login
+            if (appState == AppState.Authorized) Route.Main else Route.Auth
         )
     }
 
@@ -25,12 +27,12 @@ fun RootNavigation(appState: AppState){
         when(appState) {
 
             AppState.Unauthorized -> {
-                rootBackStack.add(0, Route.Login)
+                rootBackStack.add(0, Route.Auth)
                 rootBackStack.removeRange(1, rootBackStack.size)
             }
 
             AppState.Authorized -> {
-                rootBackStack.add(0, Route.Home)
+                rootBackStack.add(0, Route.Main)
                 rootBackStack.removeRange(1, rootBackStack.size)
             }
             else -> {
@@ -48,12 +50,12 @@ fun RootNavigation(appState: AppState){
         ),
         entryProvider = { key ->
             when (key) {
-                is Route.Login -> NavEntry(key) {
-                    LoginNavigation()
+                is Route.Auth -> NavEntry(key) {
+                    AuthorizationNavigation()
                 }
 
-                is Route.Home -> NavEntry(key) {
-                    HomeNavigation()
+                is Route.Main -> NavEntry(key) {
+                    MainNavigation()
                 }
                 else -> throw IllegalArgumentException("Unknown route: $key")
             }

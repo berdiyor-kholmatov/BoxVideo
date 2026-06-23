@@ -3,8 +3,8 @@ package com.example.boxvideo.di
 import android.content.Context
 //import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.boxvideo.network.client.NetworkClient
-import com.example.boxvideo.network.models.localVideoApi.VideoApi
-import com.example.boxvideo.network.models.localVideoApi.VideoApiImpl
+import com.example.boxvideo.data.datasource.localVideoSource.VideoSource
+import com.example.boxvideo.data.datasource.localVideoSource.MockVideoSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,8 +20,8 @@ import kotlinx.serialization.json.Json
 @InstallIn(SingletonComponent::class)
 class RemoteApiModule {
     @Provides
-    fun provideVideoApi(): VideoApi {
-        return VideoApiImpl()
+    fun provideVideoApi(): VideoSource {
+        return MockVideoSourceImpl()
     }
 
     @Provides

@@ -12,8 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.example.boxvideo.ui.navigation.HomeNavigation
-import com.example.boxvideo.ui.navigation.LoginNavigation
 import com.example.boxvideo.ui.navigation.RootNavigation
 import com.example.boxvideo.ui.theme.BoxVideoTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,9 +28,6 @@ class MainActivity : ComponentActivity() {
             BoxVideoTheme {
                 val activityViewModel = hiltViewModel<ActivityViewModel>()
                 val appState by activityViewModel.appState.collectAsState()
-
-//                RootNavigation(appState)
-
 
                 when(appState) {
                     AppState.Loading -> {
@@ -59,25 +54,12 @@ class MainActivity : ComponentActivity() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 @Serializable
 data class User(
-    val login: String,
-    val email: String,
-    val username: String,
-    val role: String,
+    val login: String = "",
+    val email: String = "",
+    val username: String = "",
+    val role: String = "",
 )
 
 

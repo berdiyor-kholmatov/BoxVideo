@@ -4,13 +4,28 @@ import java.util.UUID
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid.Companion.random
 
+//sealed interface Route {
+//
+//    object Login : Route
+//
+//    object Register: Route
+//
+//    object Home: Route
+//
+//    data class Details(val id: Int): Route
+//}
+
 sealed interface Route {
 
-    object Login : Route
+    data object Auth: Route {
+        object Login: Route
 
-    object Register: Route
+        object Register: Route
+    }
 
-    object Home: Route
+    data object Main: Route {
+        object Home: Route
 
-    data class Details(val id: Int): Route
+        data class Details(val id: Int): Route
+    }
 }

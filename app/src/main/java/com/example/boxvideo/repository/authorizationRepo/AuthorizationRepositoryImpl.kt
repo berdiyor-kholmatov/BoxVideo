@@ -7,10 +7,10 @@ import com.example.boxvideo.User
 import com.example.boxvideo.data.datastore.authstate.AuthorizationStorage
 import com.example.boxvideo.data.datastore.token.TokenStorage
 import com.example.boxvideo.network.client.NetworkClient
-import com.example.boxvideo.network.models.register.UserRegisterRequest
-import com.example.boxvideo.network.models.register.UserRegisterResponse
-import com.example.boxvideo.network.models.user.UserLoginRequest
-import com.example.boxvideo.network.models.user.UserLoginResponse
+import com.example.boxvideo.data.datasource.remoteVideoSource.authorization.models.register.UserRegisterRequest
+import com.example.boxvideo.data.datasource.remoteVideoSource.authorization.models.register.UserRegisterResponse
+import com.example.boxvideo.data.datasource.remoteVideoSource.authorization.models.user.UserLoginRequest
+import com.example.boxvideo.data.datasource.remoteVideoSource.authorization.models.user.UserLoginResponse
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -81,6 +81,22 @@ class AuthorizationRepositoryImpl @Inject constructor(
 
     override suspend fun logOut(){
         tokenStorage.clearToken()
+    }
+
+    override suspend fun getUserInfo(): User? {
+        val token = tokenStorage.getToken() ?: return null
+        try {
+            val user = networkClient.get(
+                url = "${BuildConfig.BASE_URL}/auth/me",
+                headers = mapOf("Authorization" to "Bearer $token"),
+                responseType = User::class
+            )
+            Log.d("USER_AUTHORIZATION_ME", "User: $user")
+            return user
+        } catch (e: Exception) {
+            Log.e("USER_AUTHORIZATION_ME", "Error: ${e.message}", e)
+            return null
+        }
     }
 
     override suspend fun setAuthState(state: AppState) {

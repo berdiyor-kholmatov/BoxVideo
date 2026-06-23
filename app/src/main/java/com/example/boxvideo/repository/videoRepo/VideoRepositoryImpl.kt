@@ -4,26 +4,28 @@ import androidx.room.withTransaction
 import com.example.boxvideo.data.db.VideoDao
 import com.example.boxvideo.data.db.VideoDatabase
 import com.example.boxvideo.data.db.mapper.VideoWithSourcesMapper
-import com.example.boxvideo.network.models.localVideoApi.VideoApi
-import com.example.boxvideo.network.models.mapper.DtoMapper
+import com.example.boxvideo.data.datasource.localVideoSource.VideoSource
+import com.example.boxvideo.data.datasource.localVideoSource.mapper.MockDtoMapper
 import com.example.boxvideo.domain.model.VideoFile
 import com.example.boxvideo.domain.model.VideoPreview
+import com.example.boxvideo.network.client.NetworkClient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class VideoRepositoryImpl @Inject constructor(
-    private val videoApi: VideoApi,
+    private val videoSource: VideoSource,
+    private val networkClient: NetworkClient,
     private val videoDao: VideoDao,
-    private val videoDtoMapper: DtoMapper,
+    private val videoMockDtoMapper: MockDtoMapper,
     private val videoWithSourcesMapper: VideoWithSourcesMapper,
     private val database: VideoDatabase
 ) : VideoRepository {
 
 
     override suspend fun getVideos() {
-        val listOfVideosEntity = videoApi.getVideos().map {
-            videoWithSourcesMapper.domainToModel(videoDtoMapper.modelToDomain(it))
+        val listOfVideosEntity = videoSource.getVideos().map {
+            videoWithSourcesMapper.domainToModel(videoMockDtoMapper.modelToDomain(it))
         }
         database.withTransaction {
             if (listOfVideosEntity.isNotEmpty()) {

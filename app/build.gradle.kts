@@ -26,8 +26,10 @@ android {
             "String",
             "BASE_URL",
 //          "\"http://192.168.3.157:8080\""
-            "\"http://192.168.0.104:8080\""
+            "\"http://192.168.0.103:8080\""
+//            "\"http://10.93.218.205:8080\""
         )
+
     }
 
     buildTypes {
@@ -65,6 +67,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.ui)
     implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
