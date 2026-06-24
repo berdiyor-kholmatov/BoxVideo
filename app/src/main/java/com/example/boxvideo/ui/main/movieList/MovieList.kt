@@ -47,7 +47,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -104,20 +108,30 @@ fun MovieList(state: MovieState, onEvent: (MovieEvents) -> Unit, onClick: (Int) 
                         // Квадратное окошко с данными пользователя
                         Column(
                             modifier = Modifier
-                                .padding(16.dp)
-                                .width(100.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                                .padding(16.dp),
+//                                .width(200.dp),
+                            horizontalAlignment = Alignment.Start
                         ) {
                             // Имя
+
                             Text(
-                                text = state.user.username,
-                                style = MaterialTheme.typography.titleMedium
+                                text = createLabeledString("Name", state.user.username),
+                                style = MaterialTheme.typography.bodySmall
                             )
                             // Email
                             Text(
-                                text = state.user.email,
+                                text = createLabeledString("Email", state.user.email),
+                                style = MaterialTheme.typography.bodySmall
+                            )
+
+                            Text(
+                                text = createLabeledString("Login", state.user.login),
                                 style = MaterialTheme.typography.bodySmall,
-                                color = Color.Gray
+                            )
+
+                            Text(
+                                text = createLabeledString("Role", state.user.role),
+                                style = MaterialTheme.typography.bodySmall,
                             )
 
                             Spacer(modifier = Modifier.height(16.dp))
@@ -221,7 +235,28 @@ fun MovieList(state: MovieState, onEvent: (MovieEvents) -> Unit, onClick: (Int) 
 }
 
 
+fun createLabeledString(
+    header: String,
+    value: String
+): AnnotatedString {
+    return  buildAnnotatedString {
+        withStyle(
+            style = SpanStyle(
+                fontWeight = FontWeight.Bold
+            ),
+        ){
+            append("$header: ")
+        }
 
+        withStyle(
+            style = SpanStyle(
+                color = Color.Gray
+            ),
+        ) {
+            append(value)
+        }
+    }
+}
 
 
 @Composable

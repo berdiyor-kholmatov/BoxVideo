@@ -1,4 +1,4 @@
-package com.example.boxvideo.data.datasource.remoteVideoSource.video.model
+package com.example.boxvideo.data.datasource.remoteVideoSource.video.model.video
 
 import kotlinx.serialization.Serializable
 

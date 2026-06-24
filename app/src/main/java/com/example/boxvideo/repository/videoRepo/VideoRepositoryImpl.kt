@@ -1,23 +1,23 @@
 package com.example.boxvideo.repository.videoRepo
 
+import android.util.Log
 import androidx.room.withTransaction
 import com.example.boxvideo.data.db.VideoDao
 import com.example.boxvideo.data.db.VideoDatabase
 import com.example.boxvideo.data.db.mapper.VideoWithSourcesMapper
-import com.example.boxvideo.data.datasource.localVideoSource.VideoSource
 import com.example.boxvideo.data.datasource.localVideoSource.mapper.MockDtoMapper
+import com.example.boxvideo.data.datasource.remoteVideoSource.video.RemoteVideoSource
+import com.example.boxvideo.data.datasource.remoteVideoSource.video.mapper.DtoMapper
 import com.example.boxvideo.domain.model.VideoFile
 import com.example.boxvideo.domain.model.VideoPreview
-import com.example.boxvideo.network.client.NetworkClient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class VideoRepositoryImpl @Inject constructor(
-    private val videoSource: VideoSource,
-    private val networkClient: NetworkClient,
+    private val videoSource: RemoteVideoSource,
     private val videoDao: VideoDao,
-    private val videoMockDtoMapper: MockDtoMapper,
+    private val videoDtoMapper: DtoMapper,
     private val videoWithSourcesMapper: VideoWithSourcesMapper,
     private val database: VideoDatabase
 ) : VideoRepository {
@@ -25,8 +25,13 @@ class VideoRepositoryImpl @Inject constructor(
 
     override suspend fun getVideos() {
         val listOfVideosEntity = videoSource.getVideos().map {
-            videoWithSourcesMapper.domainToModel(videoMockDtoMapper.modelToDomain(it))
+            videoWithSourcesMapper.domainToModel(videoDtoMapper.modelToDomain(it))
         }
+
+
+        Log.d("GET_VIDEOS","$listOfVideosEntity")
+
+
         database.withTransaction {
             if (listOfVideosEntity.isNotEmpty()) {
                 videoDao.deleteNotIn(listOfVideosEntity.map { it.video.id })

@@ -20,6 +20,18 @@ class NetworkClient (private val httpClient: HttpClient): Closeable {
         httpClient.close()
     }
 
+    suspend fun <T : Any> get( //there is 2 ways, 1 inline reified with allowing to be exposed NetworkClient, 2 is writing type, i choose the 2 one
+        url: String,
+        headers: Map<String, String>,
+        typeInfo: TypeInfo
+    ): T {
+        val response: HttpResponse = httpClient.get(url)
+        {
+            headers.forEach { (key, value) -> header(key, value) }
+        }
+        return response.body(typeInfo)
+    }
+
     suspend fun <T : Any> get(
         url: String,
         headers: Map<String, String>,
@@ -47,4 +59,33 @@ class NetworkClient (private val httpClient: HttpClient): Closeable {
         }
         return response.body(TypeInfo(type = responseType))
     }
+
+    suspend fun  put(
+        url: String,
+        headers: Map<String, String>,
+        body: Any?,
+    ): HttpResponse {
+        val response: HttpResponse = httpClient.post(url) {
+            headers.forEach { (key, value) -> header(key, value) }
+            body?.let {
+                contentType(ContentType.Application.Json)
+                setBody(it)
+            }
+        }
+        return response
+    }
+
+
+    suspend fun delete(
+        url: String,
+        headers: Map<String, String>,
+    ): HttpResponse {
+        val response: HttpResponse = httpClient.get(url)
+        {
+            headers.forEach { (key, value) -> header(key, value) }
+        }
+        return response
+    }
+
+
 }

@@ -1,6 +1,6 @@
 package com.example.boxvideo.data.datasource.remoteVideoSource.video
 
-import com.example.boxvideo.data.datasource.remoteVideoSource.video.model.VideoDto
+import com.example.boxvideo.data.datasource.remoteVideoSource.video.model.video.VideoDto
 
 interface RemoteVideoSource {
     suspend fun getVideos(): List<VideoDto>

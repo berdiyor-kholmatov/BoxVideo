@@ -5,8 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.boxvideo.AppState
 import com.example.boxvideo.repository.authorizationRepo.AuthorizationRepository
-import com.example.boxvideo.repository.authorizationRepo.AuthorizationRepositoryImpl
-import com.example.boxvideo.session.SessionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.delay

@@ -1,6 +1,6 @@
 package com.example.boxvideo.data.datasource.remoteVideoSource.video.mapper
 
-import com.example.boxvideo.data.datasource.remoteVideoSource.video.model.VideoDto
+import com.example.boxvideo.data.datasource.remoteVideoSource.video.model.video.VideoDto
 import com.example.boxvideo.domain.model.VideoFile
 import com.example.boxvideo.domain.mapper.Mapper
 import javax.inject.Inject

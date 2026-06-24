@@ -5,6 +5,9 @@ import android.content.Context
 import com.example.boxvideo.network.client.NetworkClient
 import com.example.boxvideo.data.datasource.localVideoSource.VideoSource
 import com.example.boxvideo.data.datasource.localVideoSource.MockVideoSourceImpl
+import com.example.boxvideo.data.datasource.remoteVideoSource.video.AdminRemoteVideoSource
+import com.example.boxvideo.data.datasource.remoteVideoSource.video.RemoteVideoSource
+import com.example.boxvideo.data.datasource.remoteVideoSource.video.VideoSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,10 +21,27 @@ import kotlinx.serialization.json.Json
 
 @Module
 @InstallIn(SingletonComponent::class)
-class RemoteApiModule {
+class RemoteDataSourceModule {
     @Provides
-    fun provideVideoApi(): VideoSource {
-        return MockVideoSourceImpl()
+    fun provideMockVideoSource(
+        mockVideoSource: MockVideoSourceImpl,
+    ): VideoSource {
+
+        return mockVideoSource
+    }
+
+    @Provides
+    fun provideVideoSource(
+        remoteVideoSource: VideoSourceImpl
+    ): RemoteVideoSource {
+        return remoteVideoSource
+    }
+
+    @Provides
+    fun provideAdminVideoSource(
+        adminRemoteVideoSource: VideoSourceImpl
+    ): AdminRemoteVideoSource {
+        return adminRemoteVideoSource
     }
 
     @Provides

@@ -1,81 +1,113 @@
 package com.example.boxvideo.data.datasource.remoteVideoSource.video
 
-import com.example.boxvideo.data.datasource.remoteVideoSource.video.model.VideoDto
-import com.example.boxvideo.data.datasource.remoteVideoSource.video.model.VideoQualityDto
-import com.example.boxvideo.data.datasource.remoteVideoSource.video.model.VideoSourceDto
+import android.util.Log
+import com.example.boxvideo.BuildConfig
+import com.example.boxvideo.data.datasource.remoteVideoSource.video.model.admin.AddVideoRespond
+import com.example.boxvideo.data.datasource.remoteVideoSource.video.model.video.VideoDto
+import com.example.boxvideo.data.datastore.token.TokenStorage
+import com.example.boxvideo.network.client.NetworkClient
+import io.ktor.util.reflect.TypeInfo
+import io.ktor.util.reflect.typeInfo
 import javax.inject.Inject
 
-class VideoSourceImpl @Inject constructor() : AdminRemoteVideoSource {
+class VideoSourceImpl @Inject constructor(
+    private val networkClient: NetworkClient,
+    private val tokenStorage: TokenStorage
+) : AdminRemoteVideoSource {
     override suspend fun getVideos(): List<VideoDto> {
 
-        val videoFilesDto: List<VideoDto> = listOf(
-            VideoDto(
-                id = 1,
-                title = "Leo",
-                description = "Leo ismli kaltakesak va Skvirtl ismli " +
-                        "toshbaqa maktab terrariumida yashaydi. Leo 74 " +
-                        "yoshga kirganini bilib, hayoti behuda o‘tganidan " +
-                        "afsuslanadi. Bir kuni bolalar sinf jonivorlarini " +
-                        "uyiga olib ketadigan bo‘lishadi, Leo esa qochmoqchi " +
-                        "paytda gapira olishini oshkor qilib qo‘yadi. Shundan " +
-                        "keyin u sirini saqlash evaziga bolalarga hayotiy " +
-                        "maslahatlar bera boshlaydi.\n" +
-                        "\n" +
-                        "Лео 2023  Ящерица Лео и черепаха Сквиртл живут в " +
-                        "террариуме класса начальной школы. Они десятилетиями " +
-                        "наблюдали взросление школьников, неплохо разбираются в " +
-                        "детской психологии и даже умеют говорить, но скрывают это " +
-                        "от людей. Однажды Лео слышит, что ящерицы его вида живут " +
-                        "до 75 лет, а когда вычисляет, что ему уже 74, то в ужасе " +
-                        "осознаёт, что жизнь прошла, а он так ничего толком и не видел. " +
-                        "Как раз в это время замещающая учительница решает научить детей " +
-                        "ответственности и поручает брать питомцев класса на " +
-                        "выходные домой. Лео пытается воспользоваться этой " +
-                        "возможностью и сбежать на волю, но в процессе " +
-                        "пробалтывается и теперь вынужден раздавать пятиклассникам" +
-                        " жизненные советы, чтобы они никому не рассказали о его тайне.",
-                thumbnailUrl = "https://asilmedia.org/uploads/mini/fullstory/ed/8bd5c566809505f3363b226e6bee64.webp",
-                sources = listOf(
-                    VideoSourceDto(
-                        quality = VideoQualityDto.P480,
-                        url = "https://fayllar1.ru/33/kinolar/Leo%202023%20480p%20(asilmedia.net).mp4"
-                    ),
-                    VideoSourceDto(
-                        quality = VideoQualityDto.P720,
-                        url = "https://fayllar1.ru/37/kinolar/Leo%202023%20720p%20(asilmedia.net).mp4"
-                    ),
-                    VideoSourceDto(
-                        quality = VideoQualityDto.P1080,
-                        url = "https://fayllar1.ru/38/kinolar/Leo%202023%201080p%20(asilmedia.net).mp4"
-                    )
-                )
+        val token = tokenStorage.getToken() ?: return emptyList()
+
+        try {
+            val videos = networkClient.get<List<VideoDto>>(
+                url = "${BuildConfig.BASE_URL}/videos",
+                headers = mapOf("Authorization" to "Bearer $token"),
+                typeInfo = typeInfo<List<VideoDto>>()
             )
-        )
-
-
-        return videoFilesDto
+            return videos
+        } catch (e: Exception) {
+            Log.e("net", "Error: ${e.message}", e)
+            return emptyList()
+        }
     }
 
     override suspend fun getVideoById(id: Int): VideoDto? {
-        TODO("Not yet implemented")
+        val token = tokenStorage.getToken() ?: return null
+
+        try {
+            val video = networkClient.get(
+                url = "${BuildConfig.BASE_URL}/videos/$id",
+                headers = mapOf("Authorization" to "Bearer $token"),
+                responseType = VideoDto::class
+            )
+            return video
+        } catch (e: Exception) {
+            Log.e("net", "Error: ${e.message}", e)
+            return null
+        }
     }
 
     override suspend fun searchVideo(query: String): List<VideoDto> {
-        TODO("Not yet implemented")
+        val token = tokenStorage.getToken() ?: return emptyList()
+
+        try {
+            val videos = networkClient.get(
+                url = "${BuildConfig.BASE_URL}/videos/search",
+                headers = mapOf("Authorization" to "Bearer $token"),
+                responseType = Array<VideoDto>::class // because of KClass we can't send List<VideoDto>, the type of list will be erased during runtime operation, so we can do it with Array which can do so
+            )
+            return videos.toList()
+        } catch (e: Exception) {
+            Log.e("net", "Error: ${e.message}", e)
+            return emptyList()
+        }
     }
 
-    override suspend fun addVideo(video: VideoDto): Int {
-        TODO("Not yet implemented")
+    override suspend fun addVideo(video: VideoDto): Int? {
+
+        val token = tokenStorage.getToken() ?: return null
+
+        try {
+            val respond = networkClient.post(
+                url = "${BuildConfig.BASE_URL}/admin/videos",
+                headers = mapOf("Authorization" to "Bearer $token"),
+                body = video,
+                responseType = AddVideoRespond::class
+            )
+            return respond.id
+        } catch (e: Exception) {
+            Log.e("net", "Error: ${e.message}", e)
+            return null
+        }
     }
 
     override suspend fun updateVideo(
         id: Int,
         video: VideoDto
     ) {
-        TODO("Not yet implemented")
+        val token = tokenStorage.getToken() ?: return
+
+        try {
+            val respond = networkClient.put(
+                url = "${BuildConfig.BASE_URL}/admin/videos/$id",
+                headers = mapOf("Authorization" to "Bearer $token"),
+                body = video,
+            )
+        } catch (e: Exception) {
+            Log.e("net", "Error: ${e.message}", e)
+        }
     }
 
     override suspend fun deleteVideo(id: Int) {
-        TODO("Not yet implemented")
+        val token = tokenStorage.getToken() ?: return
+
+        try {
+            val respond = networkClient.delete(
+                url = "${BuildConfig.BASE_URL}/admin/videos/$id",
+                headers = mapOf("Authorization" to "Bearer $token")
+            )
+        } catch (e: Exception) {
+            Log.e("net", "Error: ${e.message}", e)
+        }
     }
 }

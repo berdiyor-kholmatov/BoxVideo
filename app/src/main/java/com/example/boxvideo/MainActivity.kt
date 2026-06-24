@@ -15,11 +15,13 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.boxvideo.ui.navigation.RootNavigation
 import com.example.boxvideo.ui.theme.BoxVideoTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.Serializable
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+   
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
