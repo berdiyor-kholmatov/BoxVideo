@@ -1,34 +1,52 @@
 package com.example.boxvideo.ui.main.movieDetail
 
 import android.content.Intent
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.sharp.AccountCircle
+import androidx.compose.material.icons.sharp.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.boxvideo.domain.model.VideoFile
+import com.example.boxvideo.domain.model.VideoQuality
+import com.example.boxvideo.domain.model.VideoSource
 import com.example.boxvideo.ui.player.PlayerActivity
 import okhttp3.OkHttpClient
 
@@ -55,71 +73,181 @@ fun Detail (
             .build()
     }
 
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        TopAppBar(
-            title = {
-                Text("VideoDetails")
-            },
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = "VideoDetails",
+                        fontWeight = FontWeight.Bold
+                    )
+                },
 
-        )
+                navigationIcon = {
+                    IconButton(
+                        onClick = {  },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Sharp.ArrowBack,
+                            contentDescription = "Navigation back"
+                        )
+                    }
+                },
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceAround
+//                actions = {
+//                    IconButton(
+//                        onClick = { },
+//                    ) {
+//                        Icon(
+//                            modifier = Modifier.size(30.dp),
+//                            imageVector = Icons.Sharp.AccountCircle,
+//                            contentDescription = "Add new library"
+//                        )
+//                    }
+//                },
+                scrollBehavior = scrollBehavior
+            )
+        }
+    ) { contentPadding ->
+
+        Column(
+            modifier = Modifier.fillMaxSize().padding(contentPadding)
         ) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceAround
+            ) {
 
-            item(){
-                AsyncImage(
-                    model = ImageRequest.Builder(context)
-                        .data(state.video?.thumbnailUrl)
-                        .build(),
-                    imageLoader = imageLoader,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .height(350.dp)
-                        .aspectRatio(19/29f)
-                        .clip(RoundedCornerShape(6.dp)),
-                    contentScale = ContentScale.Crop,
-                    onError = {
-                        println("ERROR OF IMAGE ASYNC IMAGE: ${it.result.throwable}")
-                    }
-                )
-                Text(
-                    text = state.video?.title ?: "",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-                Text(
-                    text = state.video?.description ?: "",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
+                item(){
+                    AsyncImage(
+                        model = ImageRequest.Builder(context)
+                            .data(state.video?.thumbnailUrl)
+                            .build(),
+                        imageLoader = imageLoader,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(6.dp))
+                            .background(Color.Gray)
+                            .height(350.dp)
+                            .aspectRatio(19/29f),
+                        contentScale = ContentScale.Crop,
+                        onError = {
+                            println("ERROR OF IMAGE ASYNC IMAGE: ${it.result.throwable}")
+                        }
+                    )
+                    Text(
+                        text = state.video?.title ?: "",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Text(
+                        text = state.video?.description ?: "",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
 
-                Button(
-                    onClick = {
-                        val intent = Intent(context, PlayerActivity::class.java)
-                        intent.putExtra("videoId", state.video?.id)
-                        context.startActivity(intent)
+                    Button(
+                        modifier = Modifier
+                            .height(48.dp)
+                            .width(80.dp),
+                        shape = RoundedCornerShape(6.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF1DB954), // Поставьте нужный вам сочный цвет (например, синий)
+                            contentColor = Color.White,         // Цвет текста/иконки внутри
+                            disabledContainerColor = Color.Gray.copy(alpha = 0.4f), // Цвет, когда state.isLoading == true
+                            disabledContentColor = Color.White.copy(alpha = 0.6f)
+                        ),
+                        onClick = {
+                            val intent = Intent(context, PlayerActivity::class.java)
+                            intent.putExtra("videoId", state.video?.id)
+                            context.startActivity(intent)
+                        }
+                    ){
+                        Text(text = "Play")
                     }
-                ){
-                    Text(text = "Play")
+
+                    Spacer(modifier = Modifier.height(50.dp))
                 }
 
-                Spacer(modifier = Modifier.height(50.dp))
             }
-
         }
     }
-
-
 }
 
 
+
+@Preview(
+    showSystemUi = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+fun DetailPreview(
+){
+    val video: VideoFile = VideoFile(
+        id = 1,
+        title = "Leo",
+        description = "Leo ismli kaltakesak va Skvirtl ismli " +
+                "toshbaqa maktab terrariumida yashaydi. Leo 74 " +
+                "yoshga kirganini bilib, hayoti behuda o‘tganidan " +
+                "afsuslanadi. Bir kuni bolalar sinf jonivorlarini " +
+                "uyiga olib ketadigan bo‘lishadi, Leo esa qochmoqchi " +
+                "paytda gapira olishini oshkor qilib qo‘yadi. Shundan " +
+                "keyin u sirini saqlash evaziga bolalarga hayotiy " +
+                "maslahatlar bera boshlaydi.\n" +
+                "\n" +
+                "Лео 2023  Ящерица Лео и черепаха Сквиртл живут в " +
+                "террариуме класса начальной школы. Они десятилетиями " +
+                "наблюдали взросление школьников, неплохо разбираются в " +
+                "детской психологии и даже умеют говорить, но скрывают это " +
+                "от людей. Однажды Лео слышит, что ящерицы его вида живут " +
+                "до 75 лет, а когда вычисляет, что ему уже 74, то в ужасе " +
+                "осознаёт, что жизнь прошла, а он так ничего толком и не видел. " +
+                "Как раз в это время замещающая учительница решает научить детей " +
+                "ответственности и поручает брать питомцев класса на " +
+                "выходные домой. Лео пытается воспользоваться этой " +
+                "возможностью и сбежать на волю, но в процессе " +
+                "пробалтывается и теперь вынужден раздавать пятиклассникам" +
+                " жизненные советы, чтобы они никому не рассказали о его тайне.",
+        thumbnailUrl = "https://asilmedia.org/uploads/mini/fullstory/ed/8bd5c566809505f3363b226e6bee64.webp",
+        sources = listOf(
+            VideoSource(
+                quality = VideoQuality.P480,
+                url = "https://fayllar1.ru/33/kinolar/Leo%202023%20480p%20(asilmedia.net).mp4"
+            ),
+            VideoSource(
+                quality = VideoQuality.P720,
+                url = "https://fayllar1.ru/37/kinolar/Leo%202023%20720p%20(asilmedia.net).mp4"
+            ),
+            VideoSource(
+                quality = VideoQuality.P1080,
+                url = "https://fayllar1.ru/38/kinolar/Leo%202023%201080p%20(asilmedia.net).mp4"
+            )
+        )
+    )
+    // 2. ИСПРАВЛЕНО: Обернули в MaterialTheme с принудительной тёмной палитрой,
+    // чтобы не зависеть от настроек проекта прямо сейчас
+    MaterialTheme(colorScheme = androidx.compose.material3.darkColorScheme()) {
+        // 3. ИСПРАВЛЕНО: Дали корневой Surface, который закрасит весь белый экран студии в тёмный цвет
+        androidx.compose.material3.Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            Detail(
+                state = DetailState(video = video),
+                onEvent = { print("Event: $it") },
+                onClick = {}
+            )
+        }
+    }
+}
