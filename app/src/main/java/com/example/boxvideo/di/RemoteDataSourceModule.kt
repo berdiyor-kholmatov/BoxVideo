@@ -1,13 +1,13 @@
 package com.example.boxvideo.di
 
 import android.content.Context
+import com.example.boxvideo.data.localDataSource.MockVideoSourceImpl
+import com.example.boxvideo.data.localDataSource.VideoSource
+import com.example.boxvideo.data.network.NetworkClient
+import com.example.boxvideo.data.remoteDataSource.video.AdminRemoteVideoSource
+import com.example.boxvideo.data.remoteDataSource.video.RemoteVideoSource
+import com.example.boxvideo.data.remoteDataSource.video.VideoSourceImpl
 //import com.chuckerteam.chucker.api.ChuckerInterceptor
-import com.example.boxvideo.network.client.NetworkClient
-import com.example.boxvideo.data.datasource.localVideoSource.VideoSource
-import com.example.boxvideo.data.datasource.localVideoSource.MockVideoSourceImpl
-import com.example.boxvideo.data.datasource.remoteVideoSource.video.AdminRemoteVideoSource
-import com.example.boxvideo.data.datasource.remoteVideoSource.video.RemoteVideoSource
-import com.example.boxvideo.data.datasource.remoteVideoSource.video.VideoSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -61,6 +61,4 @@ class RemoteDataSourceModule {
         }
         return NetworkClient(client)
     }
-
-
 }

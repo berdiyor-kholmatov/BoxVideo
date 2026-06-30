@@ -11,10 +11,10 @@ import dagger.hilt.components.SingletonComponent
 import androidx.datastore.preferences.core.Preferences
 import javax.inject.Singleton
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.example.boxvideo.data.datastore.authstate.AuthorizationStorage
-import com.example.boxvideo.data.datastore.authstate.AuthorizationStorageImpl
-import com.example.boxvideo.data.datastore.token.TokenStorage
-import com.example.boxvideo.data.datastore.token.TokenStorageImpl
+import com.example.boxvideo.data.cache.datastore.authstate.AuthorizationStorage
+import com.example.boxvideo.data.cache.datastore.authstate.AuthorizationStorageImpl
+import com.example.boxvideo.data.cache.datastore.token.TokenStorage
+import com.example.boxvideo.data.cache.datastore.token.TokenStorageImpl
 
 
 @Module

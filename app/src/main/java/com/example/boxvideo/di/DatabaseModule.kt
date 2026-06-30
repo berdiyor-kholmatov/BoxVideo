@@ -2,8 +2,8 @@ package com.example.boxvideo.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.boxvideo.data.db.VideoDao
-import com.example.boxvideo.data.db.VideoDatabase
+import com.example.boxvideo.data.cache.db.VideoDao
+import com.example.boxvideo.data.cache.db.VideoDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

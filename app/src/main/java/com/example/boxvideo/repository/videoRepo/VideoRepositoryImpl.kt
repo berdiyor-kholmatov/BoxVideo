@@ -2,17 +2,17 @@ package com.example.boxvideo.repository.videoRepo
 
 import android.util.Log
 import androidx.room.withTransaction
-import com.example.boxvideo.data.db.VideoDao
-import com.example.boxvideo.data.db.VideoDatabase
-import com.example.boxvideo.data.db.mapper.VideoWithSourcesMapper
-import com.example.boxvideo.data.datasource.localVideoSource.mapper.MockDtoMapper
-import com.example.boxvideo.data.datasource.remoteVideoSource.video.RemoteVideoSource
-import com.example.boxvideo.data.datasource.remoteVideoSource.video.mapper.DtoMapper
+import com.example.boxvideo.data.cache.db.VideoDao
+import com.example.boxvideo.data.cache.db.VideoDatabase
+import com.example.boxvideo.data.cache.db.mapper.VideoWithSourcesMapper
+import com.example.boxvideo.data.remoteDataSource.video.RemoteVideoSource
+import com.example.boxvideo.data.remoteDataSource.video.mapper.DtoMapper
 import com.example.boxvideo.domain.model.VideoFile
 import com.example.boxvideo.domain.model.VideoPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import kotlin.collections.map
 
 class VideoRepositoryImpl @Inject constructor(
     private val videoSource: RemoteVideoSource,
