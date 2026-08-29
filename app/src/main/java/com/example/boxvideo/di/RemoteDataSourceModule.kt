@@ -1,12 +1,12 @@
 package com.example.boxvideo.di
 
 import android.content.Context
-import com.example.boxvideo.data.localDataSource.MockVideoSourceImpl
-import com.example.boxvideo.data.localDataSource.VideoSource
-import com.example.boxvideo.data.network.NetworkClient
-import com.example.boxvideo.data.remoteDataSource.video.AdminRemoteVideoSource
-import com.example.boxvideo.data.remoteDataSource.video.RemoteVideoSource
-import com.example.boxvideo.data.remoteDataSource.video.VideoSourceImpl
+import com.example.boxvideo.data.local.mockvideo.MockVideoSourceImpl
+import com.example.boxvideo.data.local.mockvideo.VideoSource
+import com.example.boxvideo.data.remote.NetworkClient
+import com.example.boxvideo.data.remote.video.AdminRemoteVideoSource
+import com.example.boxvideo.data.remote.video.RemoteVideoSource
+import com.example.boxvideo.data.remote.video.VideoSourceImpl
 //import com.chuckerteam.chucker.api.ChuckerInterceptor
 import dagger.Module
 import dagger.Provides

@@ -61,7 +61,7 @@ class LoginViewModel @Inject constructor(
                         _state.value.copy(isLoading = true)
                     }
 
-                    delay(5000)
+                    delay(2000)
                     if (authorizationRepository.login(_state.value.username, _state.value.password)){
                         authorizationRepository.setAuthState(AppState.Authorized)
                     }

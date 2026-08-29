@@ -1,5 +1,7 @@
 package com.example.boxvideo.ui.main.movieDetail
 
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.boxvideo.repository.videoRepo.VideoRepository

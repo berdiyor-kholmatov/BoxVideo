@@ -4,13 +4,13 @@ import android.util.Log
 import com.example.boxvideo.AppState
 import com.example.boxvideo.BuildConfig
 import com.example.boxvideo.User
-import com.example.boxvideo.data.cache.datastore.authstate.AuthorizationStorage
-import com.example.boxvideo.data.cache.datastore.token.TokenStorage
-import com.example.boxvideo.data.network.NetworkClient
-import com.example.boxvideo.data.remoteDataSource.authorization.models.register.UserRegisterRequest
-import com.example.boxvideo.data.remoteDataSource.authorization.models.register.UserRegisterResponse
-import com.example.boxvideo.data.remoteDataSource.authorization.models.user.UserLoginRequest
-import com.example.boxvideo.data.remoteDataSource.authorization.models.user.UserLoginResponse
+import com.example.boxvideo.data.local.datastore.authstate.AuthorizationStorage
+import com.example.boxvideo.data.local.datastore.token.TokenStorage
+import com.example.boxvideo.data.remote.NetworkClient
+import com.example.boxvideo.data.remote.authorization.models.register.UserRegisterRequest
+import com.example.boxvideo.data.remote.authorization.models.register.UserRegisterResponse
+import com.example.boxvideo.data.remote.authorization.models.user.UserLoginRequest
+import com.example.boxvideo.data.remote.authorization.models.user.UserLoginResponse
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

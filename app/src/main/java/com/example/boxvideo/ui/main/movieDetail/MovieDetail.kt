@@ -3,8 +3,11 @@ package com.example.boxvideo.ui.main.movieDetail
 import android.content.Intent
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,7 +32,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,7 +43,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withLink
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,6 +61,7 @@ import coil.request.ImageRequest
 import com.example.boxvideo.domain.model.VideoFile
 import com.example.boxvideo.domain.model.VideoQuality
 import com.example.boxvideo.domain.model.VideoSource
+import com.example.boxvideo.ui.common.ExpandableTextInlineMore
 import com.example.boxvideo.ui.player.PlayerActivity
 import okhttp3.OkHttpClient
 
@@ -54,6 +69,7 @@ import okhttp3.OkHttpClient
 @Composable
 fun Detail (
     state: DetailState,
+    onBack: () -> Unit,
     onEvent: (DetailEvents) -> Unit,
     onClick: (Int) -> Unit
 ) {
@@ -90,7 +106,7 @@ fun Detail (
 
                 navigationIcon = {
                     IconButton(
-                        onClick = {  },
+                        onClick = { onBack() },
                     ) {
                         Icon(
                             imageVector = Icons.Sharp.ArrowBack,
@@ -98,31 +114,19 @@ fun Detail (
                         )
                     }
                 },
-
-//                actions = {
-//                    IconButton(
-//                        onClick = { },
-//                    ) {
-//                        Icon(
-//                            modifier = Modifier.size(30.dp),
-//                            imageVector = Icons.Sharp.AccountCircle,
-//                            contentDescription = "Add new library"
-//                        )
-//                    }
-//                },
                 scrollBehavior = scrollBehavior
             )
         }
     ) { contentPadding ->
 
-        Column(
+        Box(
             modifier = Modifier.fillMaxSize().padding(contentPadding)
         ) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background)
-                    .padding(8.dp),
+                    .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceAround
             ) {
@@ -137,30 +141,48 @@ fun Detail (
                         modifier = Modifier
                             .clip(RoundedCornerShape(6.dp))
                             .background(Color.Gray)
-                            .height(350.dp)
+                                .height(300.dp)
                             .aspectRatio(19/29f),
                         contentScale = ContentScale.Crop,
                         onError = {
                             println("ERROR OF IMAGE ASYNC IMAGE: ${it.result.throwable}")
                         }
                     )
+
+
+                    Spacer(Modifier.height(8.dp))
+
                     Text(
                         text = state.video?.title ?: "",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     )
-                    Text(
+
+                    ExpandableTextInlineMore(
                         text = state.video?.description ?: "",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        minimizedMaxLines = 4,
                     )
+
+//                    Text(
+//                        text = state.video?.description ?: "",
+//                        maxLines = 3,
+//                        overflow = TextOverflow.Ellipsis,
+//                        color = Color.White
+//                    )
+
+
+//                    Text(
+//                        text = state.video?.description ?: "",
+//                        fontSize = 16.sp,
+////                        fontWeight = FontWeight.Bold,
+//                        color = Color.White
+//                    )
 
                     Button(
                         modifier = Modifier
                             .height(48.dp)
-                            .width(80.dp),
+                            .width(88.dp),
                         shape = RoundedCornerShape(6.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF1DB954), // Поставьте нужный вам сочный цвет (например, синий)
@@ -194,7 +216,7 @@ fun Detail (
 @Composable
 fun DetailPreview(
 ){
-    val video: VideoFile = VideoFile(
+    val video = VideoFile(
         id = 1,
         title = "Leo",
         description = "Leo ismli kaltakesak va Skvirtl ismli " +
@@ -245,9 +267,11 @@ fun DetailPreview(
         ) {
             Detail(
                 state = DetailState(video = video),
+                onBack = {},
                 onEvent = { print("Event: $it") },
                 onClick = {}
             )
         }
     }
 }
+

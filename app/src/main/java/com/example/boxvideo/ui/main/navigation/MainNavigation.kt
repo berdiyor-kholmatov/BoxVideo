@@ -1,5 +1,6 @@
 package com.example.boxvideo.ui.main.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -47,6 +48,9 @@ fun MainNavigation(){
                 }
 
                 is Route.Main.Details -> NavEntry(key) {
+
+                    Log.d("ddd","${key.id}")
+
                     val detailViewModel: DetailViewModel =
                         hiltViewModel<DetailViewModel, DetailViewModel.Factory>(
                             creationCallback = { factory ->
@@ -56,8 +60,11 @@ fun MainNavigation(){
                         )
                     val state by detailViewModel.state.collectAsState()
                     Detail(
-                        state,
-                        detailViewModel::onEvent,
+                        state = state,
+                        onBack = {
+                            rootBackStack.removeLastOrNull()
+                        },
+                        onEvent = detailViewModel::onEvent,
                         onClick = {}
                     )
                 }

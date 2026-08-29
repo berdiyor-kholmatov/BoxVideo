@@ -2,11 +2,11 @@ package com.example.boxvideo.repository.videoRepo
 
 import android.util.Log
 import androidx.room.withTransaction
-import com.example.boxvideo.data.cache.db.VideoDao
-import com.example.boxvideo.data.cache.db.VideoDatabase
-import com.example.boxvideo.data.cache.db.mapper.VideoWithSourcesMapper
-import com.example.boxvideo.data.remoteDataSource.video.RemoteVideoSource
-import com.example.boxvideo.data.remoteDataSource.video.mapper.DtoMapper
+import com.example.boxvideo.data.local.db.VideoDao
+import com.example.boxvideo.data.local.db.VideoDatabase
+import com.example.boxvideo.data.local.db.mapper.VideoWithSourcesMapper
+import com.example.boxvideo.data.remote.video.RemoteVideoSource
+import com.example.boxvideo.data.remote.video.mapper.DtoMapper
 import com.example.boxvideo.domain.model.VideoFile
 import com.example.boxvideo.domain.model.VideoPreview
 import kotlinx.coroutines.flow.Flow
